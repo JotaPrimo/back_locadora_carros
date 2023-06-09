@@ -28535,97 +28535,96 @@ var render = function () {
         ),
       ]),
       _vm._v(" "),
-      _c(
-        "modal-component",
-        {
-          attrs: { id: "modalMarca", titulo: "Adicionar Marca" },
-          scopedSlots: _vm._u([
-            {
-              key: "conteudo",
-              fn: function () {
-                return [
-                  _c(
-                    "div",
-                    { staticClass: "form-group" },
-                    [
-                      _c(
-                        "input-container-component",
-                        {
+      _c("modal-component", {
+        attrs: { id: "modalMarca", titulo: "Adicionar Marca" },
+        scopedSlots: _vm._u([
+          {
+            key: "conteudo",
+            fn: function () {
+              return [
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c(
+                      "input-container-component",
+                      {
+                        attrs: {
+                          id: "novoNome",
+                          titulo: "Nome da marca",
+                          "id-help": "novoNomeHelp",
+                          "texto-ajuda": "Informe o nome da marca",
+                        },
+                      },
+                      [
+                        _c("input", {
+                          staticClass: "form-control",
                           attrs: {
+                            type: "text",
                             id: "novoNome",
-                            titulo: "Nome da marca",
-                            "id-help": "novoNomeHelp",
-                            "texto-ajuda": "Informe o nome da marca",
+                            placeholder: "Informe o nome",
+                            "aria-describedby": "novoNomeHelp",
                           },
+                        }),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "input-container-component",
+                      {
+                        attrs: {
+                          id: "novoImagem",
+                          titulo: "Imagem",
+                          "id-help": "novoImagemHelp",
+                          "texto-ajuda": "Envie o arquivo",
                         },
-                        [
-                          _c("input", {
-                            staticClass: "form-control",
-                            attrs: {
-                              type: "text",
-                              id: "novoNome",
-                              placeholder: "Informe o nome",
-                              "aria-describedby": "novoNomeHelp",
-                            },
-                          }),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "input-container-component",
-                        {
+                      },
+                      [
+                        _c("input", {
+                          staticClass: "form-control-file",
                           attrs: {
-                            id: "novoImagem",
-                            titulo: "Imagem",
-                            "id-help": "novoImagemHelp",
-                            "texto-ajuda": "Envie o arquivo",
+                            type: "file",
+                            id: "imagem",
+                            placeholder: "Selecione Imagem",
+                            "aria-describedby": "novoImagemHelp",
                           },
-                        },
-                        [
-                          _c("input", {
-                            staticClass: "form-control-file",
-                            attrs: {
-                              type: "file",
-                              id: "imagem",
-                              placeholder: "Selecione Imagem",
-                              "aria-describedby": "novoImagemHelp",
-                            },
-                          }),
-                        ]
-                      ),
-                    ],
-                    1
-                  ),
-                ]
-              },
-              proxy: true,
+                        }),
+                      ]
+                    ),
+                  ],
+                  1
+                ),
+              ]
             },
-          ]),
-        },
-        [
-          _vm._v(" "),
-          [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-secondary btn-sm",
-                attrs: { type: "button", "data-bs-dismiss": "modal" },
-              },
-              [_vm._v("Cancelar")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary btn-sm",
-                attrs: { type: "button" },
-              },
-              [_vm._v("Salvar")]
-            ),
-          ],
-        ],
-        2
-      ),
+            proxy: true,
+          },
+          {
+            key: "rodape",
+            fn: function () {
+              return [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary btn-sm",
+                    attrs: { type: "button", "data-bs-dismiss": "modal" },
+                  },
+                  [_vm._v("Cancelar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-sm",
+                    attrs: { type: "button" },
+                  },
+                  [_vm._v("Salvar")]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+        ]),
+      }),
     ],
     1
   )

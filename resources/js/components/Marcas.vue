@@ -74,7 +74,7 @@
                 </div>
             </template>
 
-            <template name="rodape">
+            <template v-slot:rodape>
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary btn-sm">Salvar</button>
             </template>
