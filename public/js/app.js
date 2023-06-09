@@ -5457,11 +5457,19 @@ __webpack_require__.r(__webpack_exports__);
       arquivoImagem: [],
       // inputs do tipo file não podem ser usados com v-model
       transacaoStatus: '',
-      transacaoDetalhes: {} // detalhes uso v-bind pq tem valores dinamicos
+      transacaoDetalhes: {},
+      // detalhes uso v-bind pq tem valores dinamicos,
+      marcas: []
     };
   },
-
   methods: {
+    carregarLista: function carregarLista() {
+      axios.get(this.urlBase).then(function (res) {
+        return console.log(res.data);
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    },
     carregarImagem: function carregarImagem(e) {
       this.arquivoImagem = e.target.files;
     },
@@ -5489,9 +5497,11 @@ __webpack_require__.r(__webpack_exports__);
           dados: err.response.data.errors
         };
         _this.transacaoStatus = 'erro';
-        // err.response.data
       });
     }
+  },
+  mounted: function mounted() {
+    this.marcas = this.carregarLista();
   }
 });
 

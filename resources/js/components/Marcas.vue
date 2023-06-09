@@ -113,10 +113,18 @@ export default {
             nomeMarca: '',
             arquivoImagem: [], // inputs do tipo file não podem ser usados com v-model
             transacaoStatus: '',
-            transacaoDetalhes: { } // detalhes uso v-bind pq tem valores dinamicos
+            transacaoDetalhes: { }, // detalhes uso v-bind pq tem valores dinamicos,
+            marcas: []
         }
     },
     methods: {
+
+        carregarLista() {
+            axios.get(this.urlBase)
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err))
+        },
+
         carregarImagem(e) {
             this.arquivoImagem = e.target.files
         },
@@ -147,12 +155,16 @@ export default {
                     mensagem: err.response.data.message,
                     dados: err.response.data.errors,
                 };
+
                 this.transacaoStatus = 'erro';
-                // err.response.data
 
             })
 
         }
+    },
+
+    mounted() {
+        this.marcas = this.carregarLista()
     }
 
 }
