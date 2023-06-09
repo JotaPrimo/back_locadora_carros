@@ -5082,9 +5082,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['tipo'],
+  props: ['tipo', 'titulo', 'detalhes'],
   computed: {
     estilo: function estilo() {
       return 'alert alert-' + this.tipo;
@@ -5433,13 +5440,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       urlBase: 'http://localhost:8000/api/v1/marca',
       nomeMarca: '',
-      arquivoImagem: [] // inputs do tipo file não podem ser usados com v-model
+      arquivoImagem: [],
+      // inputs do tipo file não podem ser usados com v-model
+      transacaoStatus: '',
+      transacaoDetalhes: [] // detalhes uso v-bind pq tem valores dinamicos
     };
   },
 
@@ -5448,6 +5468,7 @@ __webpack_require__.r(__webpack_exports__);
       this.arquivoImagem = e.target.files;
     },
     salvar: function salvar() {
+      var _this = this;
       var formData = new FormData();
       formData.append('nome', this.nomeMarca);
       formData.append('imagem', this.arquivoImagem[0]);
@@ -5460,9 +5481,12 @@ __webpack_require__.r(__webpack_exports__);
 
       // axios.post(<url>, <conteudo>, <config>)
       axios.post(this.urlBase, formData, config).then(function (response) {
-        console.log(response);
+        _this.transacaoStatus = 'adicionado';
+        _this.transacaoDetalhes = response;
       })["catch"](function (err) {
-        console.log(err);
+        _this.transacaoDetalhes = err.response;
+        _this.transacaoStatus = 'erro';
+        // err.response.data
       });
     }
   }
@@ -28198,11 +28222,22 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { class: _vm.estilo, attrs: { role: "alert" } }, [
-    _vm._v(
-      "\n    A simple success alert—check it out!\n    " +
-        _vm._s(_vm.tipo) +
-        "\n"
-    ),
+    _vm._v("\n    " + _vm._s(_vm.titulo) + "\n    "),
+    _c("hr"),
+    _vm._v("\n    " + _vm._s(_vm.detalhes.data.message) + "\n    "),
+    _c("br"),
+    _vm._v(" "),
+    _vm.detalhes.data.errors
+      ? _c(
+          "ul",
+          _vm._l(_vm.detalhes.data.errors, function (e, key) {
+            return _c("li", { key: key }, [
+              _vm._v("\n           " + _vm._s(e[0]) + "\n        "),
+            ])
+          }),
+          0
+        )
+      : _vm._e(),
   ])
 }
 var staticRenderFns = []
@@ -28720,9 +28755,23 @@ var render = function () {
             key: "alertas",
             fn: function () {
               return [
-                _c("alert-component", { attrs: { tipo: "success" } }),
-                _vm._v(" "),
-                _c("alert-component", { attrs: { tipo: "danger" } }),
+                _vm.transacaoStatus == "adicionado"
+                  ? _c("alert-component", {
+                      attrs: {
+                        titulo: "Marca cadastrada com sucesso",
+                        tipo: "success",
+                        detalhes: _vm.transacaoDetalhes,
+                      },
+                    })
+                  : _vm.transacaoStatus == "erro"
+                  ? _c("alert-component", {
+                      attrs: {
+                        titulo: "Erro ao tentar cadastrar a marca",
+                        detalhes: _vm.transacaoDetalhes,
+                        tipo: "danger",
+                      },
+                    })
+                  : _vm._e(),
               ]
             },
             proxy: true,
