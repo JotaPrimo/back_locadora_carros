@@ -51,17 +51,36 @@
                         <table-component></table-component>
                     </template>
                     <template v-slot:rodape>
-                        <button type="button" class="float-end btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalMarca">Adicionar</button>
+                        <button type="button" class="float-end btn btn-primary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#modalMarca">Adicionar
+                        </button>
                     </template>
                 </card-component>
                 <!--    fim card listagem marcas -->
             </div>
         </div>
 
-        <!--        modal-->
         <!-- Modal -->
-        <modal-component id="modalMarca" titulo="Adicionar Marca"></modal-component>
-        <!--        modal-->
+        <modal-component id="modalMarca" titulo="Adicionar Marca">
+            <template v-slot:conteudo>
+                <div class="form-group">
+                    <input-container-component id="novoNome" titulo="Nome da marca" id-help="novoNomeHelp" texto-ajuda="Informe o nome da marca">
+                        <input type="text" class="form-control" id="novoNome" placeholder="Informe o nome" aria-describedby="novoNomeHelp">
+                    </input-container-component>
+
+                    <input-container-component id="novoImagem" titulo="Imagem" id-help="novoImagemHelp" texto-ajuda="Envie o arquivo">
+                        <input  type="file" class="form-control-file" id="imagem"  placeholder="Selecione Imagem" aria-describedby="novoImagemHelp">
+                    </input-container-component>
+                </div>
+            </template>
+
+            <template name="rodape">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary btn-sm">Salvar</button>
+            </template>
+
+        </modal-component>
+        <!-- modal-->
     </div>
 </template>
 
