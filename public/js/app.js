@@ -5089,6 +5089,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['tipo', 'titulo', 'detalhes'],
@@ -28224,7 +28225,15 @@ var render = function () {
   return _c("div", { class: _vm.estilo, attrs: { role: "alert" } }, [
     _vm._v("\n    " + _vm._s(_vm.titulo) + "\n    "),
     _c("hr"),
-    _vm._v("\n    " + _vm._s(_vm.detalhes.data.message) + "\n    "),
+    _vm._v(" "),
+    _vm.detalhes.data.message
+      ? _c("span", [_vm._v(_vm._s(_vm.detalhes.data.message))])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.detalhes.data.id
+      ? _c("span", [_vm._v(_vm._s(_vm.detalhes.data.id))])
+      : _vm._e(),
+    _vm._v(" "),
     _c("br"),
     _vm._v(" "),
     _vm.detalhes.data.errors
