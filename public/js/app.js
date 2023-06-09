@@ -5087,9 +5087,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['tipo', 'titulo', 'detalhes'],
@@ -5460,7 +5457,7 @@ __webpack_require__.r(__webpack_exports__);
       arquivoImagem: [],
       // inputs do tipo file não podem ser usados com v-model
       transacaoStatus: '',
-      transacaoDetalhes: [] // detalhes uso v-bind pq tem valores dinamicos
+      transacaoDetalhes: {} // detalhes uso v-bind pq tem valores dinamicos
     };
   },
 
@@ -5483,9 +5480,14 @@ __webpack_require__.r(__webpack_exports__);
       // axios.post(<url>, <conteudo>, <config>)
       axios.post(this.urlBase, formData, config).then(function (response) {
         _this.transacaoStatus = 'adicionado';
-        _this.transacaoDetalhes = response;
+        _this.transacaoDetalhes = {
+          mensagem: 'ID de regisro: ' + response.data.id
+        };
       })["catch"](function (err) {
-        _this.transacaoDetalhes = err.response;
+        _this.transacaoDetalhes = {
+          mensagem: err.response.data.message,
+          dados: err.response.data.errors
+        };
         _this.transacaoStatus = 'erro';
         // err.response.data
       });
@@ -28226,23 +28228,13 @@ var render = function () {
     _vm._v("\n    " + _vm._s(_vm.titulo) + "\n    "),
     _c("hr"),
     _vm._v(" "),
-    _vm.detalhes.data.message
-      ? _c("span", [_vm._v(_vm._s(_vm.detalhes.data.message))])
-      : _vm._e(),
+    _c("p", [_vm._v(_vm._s(_vm.detalhes.mensagem))]),
     _vm._v(" "),
-    _vm.detalhes.data.id
-      ? _c("span", [_vm._v(_vm._s(_vm.detalhes.data.id))])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _vm.detalhes.data.errors
+    _vm.detalhes.dados
       ? _c(
           "ul",
-          _vm._l(_vm.detalhes.data.errors, function (e, key) {
-            return _c("li", { key: key }, [
-              _vm._v("\n           " + _vm._s(e[0]) + "\n        "),
-            ])
+          _vm._l(_vm.detalhes.dados, function (e, key) {
+            return _c("li", { key: key }, [_vm._v(_vm._s(e[0]))])
           }),
           0
         )

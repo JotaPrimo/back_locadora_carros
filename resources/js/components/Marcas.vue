@@ -113,7 +113,7 @@ export default {
             nomeMarca: '',
             arquivoImagem: [], // inputs do tipo file não podem ser usados com v-model
             transacaoStatus: '',
-            transacaoDetalhes: [] // detalhes uso v-bind pq tem valores dinamicos
+            transacaoDetalhes: { } // detalhes uso v-bind pq tem valores dinamicos
         }
     },
     methods: {
@@ -138,10 +138,15 @@ export default {
             axios.post(this.urlBase, formData, config)
                 .then(response => {
                     this.transacaoStatus = 'adicionado';
-                    this.transacaoDetalhes = response;
+                    this.transacaoDetalhes = {
+                        mensagem: 'ID de regisro: ' + response.data.id,
+                    }
 
                 }).catch(err => {
-                this.transacaoDetalhes = err.response;
+                this.transacaoDetalhes = {
+                    mensagem: err.response.data.message,
+                    dados: err.response.data.errors,
+                };
                 this.transacaoStatus = 'erro';
                 // err.response.data
 
