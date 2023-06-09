@@ -5392,9 +5392,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Home"
+  data: function data() {
+    return {
+      urlBase: 'http://localhost:8000/api/v1/marca',
+      nomeMarca: '',
+      arquivoImagem: [] // inputs do tipo file não podem ser usados com v-model
+    };
+  },
+
+  methods: {
+    carregarImagem: function carregarImagem(e) {
+      this.arquivoImagem = e.target.files;
+    },
+    salvar: function salvar() {
+      var formData = new FormData();
+      formData.append('nome', this.nomeMarca);
+      formData.append('imagem', this.arquivoImagem[0]);
+      var config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json'
+        }
+      };
+
+      // axios.post(<url>, <conteudo>, <config>)
+      axios.post(this.urlBase, formData, config).then(function (response) {
+        console.log(response);
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -28558,6 +28596,14 @@ var render = function () {
                       },
                       [
                         _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nomeMarca,
+                              expression: "nomeMarca",
+                            },
+                          ],
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
@@ -28565,10 +28611,31 @@ var render = function () {
                             placeholder: "Informe o nome",
                             "aria-describedby": "novoNomeHelp",
                           },
+                          domProps: { value: _vm.nomeMarca },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.nomeMarca = $event.target.value
+                            },
+                          },
                         }),
                       ]
                     ),
-                    _vm._v(" "),
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(_vm.nomeMarca) +
+                        "\n            "
+                    ),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
                     _c(
                       "input-container-component",
                       {
@@ -28588,11 +28655,19 @@ var render = function () {
                             placeholder: "Selecione Imagem",
                             "aria-describedby": "novoImagemHelp",
                           },
+                          on: {
+                            change: function ($event) {
+                              return _vm.carregarImagem($event)
+                            },
+                          },
                         }),
                       ]
                     ),
                   ],
                   1
+                ),
+                _vm._v(
+                  "\n            " + _vm._s(_vm.arquivoImagem) + "\n        "
                 ),
               ]
             },
@@ -28616,6 +28691,11 @@ var render = function () {
                   {
                     staticClass: "btn btn-primary btn-sm",
                     attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.salvar()
+                      },
+                    },
                   },
                   [_vm._v("Salvar")]
                 ),
