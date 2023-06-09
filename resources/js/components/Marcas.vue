@@ -2,9 +2,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <div class="card">
-                    <div class="card-header">Busca de Marcas</div>
-                    <div class="card-body">
+                <card-component titulo="Busca de Marcas">
+
+                    <template v-slot:conteudo>
                         <div class="row">
                             <div class="mb-3 col">
                                 <input-container-component
@@ -20,7 +20,6 @@
                                         aria-describedby="idHelp">
                                 </input-container-component>
                             </div>
-
                             <div class="mb-3 col">
                                 <input-container-component
                                     id="nome"
@@ -38,21 +37,23 @@
                                 </input-container-component>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
+                    </template>
+
+                    <template v-slot:rodape>
                         <button type="submit" class="float-end btn btn-primary btn-sm">Buscar</button>
-                    </div>
-                </div>
+                    </template>
+
+                </card-component>
+
                 <!--    inicio card listagem marcas -->
-                <div class="card mt-3">
-                    <div class="card-header">Listagem de Marcas</div>
-                    <div class="card-body">
-                       <table-component></table-component>
-                    </div>
-                    <div class="card-footer">
+                <card-component titulo="Listagem de Marcas">
+                    <template v-slot:conteudo>
+                        <table-component></table-component>
+                    </template>
+                    <template v-slot:rodape>
                         <button type="button" class="float-end btn btn-primary btn-sm">Adicionar</button>
-                    </div>
-                </div>
+                    </template>
+                </card-component>
                 <!--    fim card listagem marcas -->
             </div>
         </div>
