@@ -7,16 +7,40 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="mb-3 col">
-                                <label for="id" class="form-label">#ID</label>
-                                <input type="number" class="form-control" id="id" placeholder="Id" aria-describedby="idHelp">
-                                <div id="idHelp" class="form-text">Buscar por id</div>
+                                <input-container-component
+                                    id="ID"
+                                    titulo="ID"
+                                    id-help="idHelp"
+                                    texto-ajuda="Informe o id da marca">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="id"
+                                        placeholder="Id"
+                                        aria-describedby="idHelp">
+                                </input-container-component>
                             </div>
+
                             <div class="mb-3 col">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nome" placeholder="Nome da marca" aria-describedby="nomeHelp">
-                                <div id="nomeHelp" class="form-text">Buscar por nome</div>
+                                <input-container-component
+                                    id="nome"
+                                    titulo="Nome da marca"
+                                    id-help="nomeHelp"
+                                    texto-ajuda="Buscar por nome">
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="nome"
+                                        placeholder="Nome da marca"
+                                        aria-describedby="nomeHelp">
+
+                                </input-container-component>
+
                             </div>
+
                         </div>
+
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="float-end btn btn-primary btn-sm">Buscar</button>
