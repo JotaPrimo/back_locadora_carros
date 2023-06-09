@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\MarcaController;
 use Illuminate\Support\Facades\Route;
-
+use \Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,4 +21,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/marcas', function () {
+    return view('app.marcas');
+})->name('marcas')->middleware('auth');
+
