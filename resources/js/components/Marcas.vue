@@ -62,6 +62,11 @@
 
         <!-- Modal -->
         <modal-component id="modalMarca" titulo="Adicionar Marca">
+            <template v-slot:alertas>
+                <alert-component tipo="success"></alert-component>
+                <alert-component tipo="danger"></alert-component>
+            </template>
+
             <template v-slot:conteudo>
                 <div class="form-group">
                     <input-container-component id="novoNome" titulo="Nome da marca" id-help="novoNomeHelp"
@@ -69,7 +74,6 @@
                         <input v-model="nomeMarca" type="text" class="form-control" id="novoNome"
                                placeholder="Informe o nome" aria-describedby="novoNomeHelp">
                     </input-container-component>
-                {{ nomeMarca }}
                 </div>
 
                 <div class="form-group">
@@ -79,7 +83,6 @@
                                placeholder="Selecione Imagem" aria-describedby="novoImagemHelp">
                     </input-container-component>
                 </div>
-                {{ arquivoImagem }}
             </template>
 
             <template v-slot:rodape>
