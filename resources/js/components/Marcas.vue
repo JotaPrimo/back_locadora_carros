@@ -39,7 +39,7 @@
                     <template v-slot:conteudo>
                         <table-component
                             :dados="marcas.data"
-                            :visualizar="true"
+                            :visualizar="{ visivel: true, dataToggle:'modal', dataTarget:'#modalVisualarMarcas' }"
                             :remover="true"
                             :editar="false"
                             :titulos="{
@@ -48,7 +48,8 @@
                                 imagem: {titulo: 'Imagem', tipo: 'imagem'},
                                 created_at: {titulo: 'Criação', tipo: 'data'},
                             }"
-                        ></table-component>
+                        >
+                        </table-component>
                     </template>
 
                     <template v-slot:rodape>
@@ -120,7 +121,7 @@
         <modal-component id="modalVisualarMarcas" titulo="Dados da marca">
             <template v-slot="alertas"></template>
             <template v-slot="conteudo">
-                
+
             </template>
             <template v-slot:rodape>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

@@ -5474,6 +5474,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -28997,7 +28998,11 @@ var render = function () {
                       _c("table-component", {
                         attrs: {
                           dados: _vm.marcas.data,
-                          visualizar: true,
+                          visualizar: {
+                            visivel: true,
+                            dataToggle: "modal",
+                            dataTarget: "#modalVisualarMarcas",
+                          },
                           remover: true,
                           editar: false,
                           titulos: {
@@ -29396,7 +29401,7 @@ var render = function () {
               ])
             }),
             _vm._v(" "),
-            _vm.visualizar || _vm.editar || _vm.remover
+            _vm.visualizar.visivel || _vm.editar || _vm.remover
               ? _c("th", [_vm._v("Ações")])
               : _vm._e(),
           ],
@@ -29441,33 +29446,39 @@ var render = function () {
                 ])
               }),
               _vm._v(" "),
-              _c("td", [
-                _vm.visualizar
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-primary",
-                        attrs: {
-                          "data-bs-toggle": "modal",
-                          "data-bs-target": "#modalVisualarMarcas",
-                        },
-                      },
-                      [_vm._v("Ver\n                ")]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.editar
-                  ? _c("button", { staticClass: "btn btn-sm btn-warning" }, [
-                      _vm._v("Editar\n                "),
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.remover
-                  ? _c("button", { staticClass: "btn btn-sm btn-danger" }, [
-                      _vm._v("\n                    Deletar\n                "),
-                    ])
-                  : _vm._e(),
-              ]),
+              _vm.visualizar.visivel || _vm.editar || _vm.remover
+                ? _c("td", [
+                    _vm.visualizar.visivel
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-primary",
+                            attrs: {
+                              "data-bs-toggle": _vm.visualizar.dataToggle,
+                              "data-bs-target": _vm.visualizar.dataTarget,
+                            },
+                          },
+                          [_vm._v("Ver\n                ")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.editar
+                      ? _c(
+                          "button",
+                          { staticClass: "btn btn-sm btn-warning" },
+                          [_vm._v("Editar\n                ")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.remover
+                      ? _c("button", { staticClass: "btn btn-sm btn-danger" }, [
+                          _vm._v(
+                            "\n                    Deletar\n                "
+                          ),
+                        ])
+                      : _vm._e(),
+                  ])
+                : _vm._e(),
             ],
             2
           )

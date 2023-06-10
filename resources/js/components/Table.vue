@@ -4,7 +4,7 @@
             <thead>
             <tr>
                 <th scope="col" v-for="t, key in titulos" :key="key">{{ t.titulo }}</th>
-                <th v-if="visualizar || editar || remover">Ações</th>
+                <th v-if="visualizar.visivel || editar || remover">Ações</th>
             </tr>
             </thead>
             <tbody>
@@ -18,11 +18,11 @@
                             <img :src="'/storage/'+valor" width="30" height="30">
                         </span>
                 </td>
-                <td>
+                <td v-if="visualizar.visivel || editar || remover">
                     <button
-                        v-if="visualizar"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalVisualarMarcas"
+                        v-if="visualizar.visivel"
+                        :data-bs-toggle="visualizar.dataToggle"
+                        :data-bs-target="visualizar.dataTarget"
                         class="btn btn-sm btn-primary">Ver
                     </button>
 
