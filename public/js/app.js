@@ -5442,7 +5442,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5462,6 +5461,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       urlBase: 'http://localhost:8000/api/v1/marca',
+      urlPaginacao: '',
+      urlFiltro: '',
       nomeMarca: '',
       arquivoImagem: [],
       transacaoStatus: '',
@@ -5476,9 +5477,31 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    pesquisar: function pesquisar() {
+      //console.log(this.busca)
+
+      var filtro = '';
+      for (var chave in this.busca) {
+        if (this.busca[chave]) {
+          //console.log(chave, this.busca[chave])
+          if (filtro != '') {
+            filtro += ";";
+          }
+          filtro += chave + ':like:' + this.busca[chave];
+        }
+      }
+      if (filtro != '') {
+        this.urlPaginacao = 'page=1';
+        this.urlFiltro = '&filtro=' + filtro;
+      } else {
+        this.urlFiltro = '';
+      }
+      this.carregarLista();
+    },
     paginacao: function paginacao(l) {
       if (l.url) {
-        this.urlBase = l.url; //ajustando a url de consulta com o parâmetro de página
+        //this.urlBase = l.url //ajustando a url de consulta com o parâmetro de página
+        this.urlPaginacao = l.url.split('?')[1];
         this.carregarLista(); //requisitando novamente os dados para nossa API
       }
     },
@@ -5490,7 +5513,9 @@ __webpack_require__.r(__webpack_exports__);
           'Authorization': this.token
         }
       };
-      axios.get(this.urlBase, config).then(function (response) {
+      var url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro;
+      console.log(url);
+      axios.get(url, config).then(function (response) {
         _this.marcas = response.data;
         //console.log(this.marcas)
       })["catch"](function (errors) {
@@ -5518,8 +5543,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.transacaoDetalhes = {
           mensagem: 'ID do registro: ' + response.data.id
         };
-        _this2.limparInputs(); // limpando inputs
-        _this2.carregarLista(); // atualiazando lista
+        console.log(response);
       })["catch"](function (errors) {
         _this2.transacaoStatus = 'erro';
         _this2.transacaoDetalhes = {
@@ -5528,22 +5552,6 @@ __webpack_require__.r(__webpack_exports__);
         };
         //errors.response.data.message
       });
-    },
-    pesquisar: function pesquisar() {
-      var filtro = '';
-      for (var chave in this.busca) {
-        if (this.busca[chave]) {
-          if (filtro != '') {
-            filtro += ';';
-          }
-        }
-        filtro += chave + ':like' + this.busca[chave];
-      }
-      console.log(this.busca);
-    },
-    limparInputs: function limparInputs() {
-      this.nomeMarca = '';
-      this.arquivoImagem = [];
     }
   },
   mounted: function mounted() {
@@ -28804,22 +28812,36 @@ var render = function () {
                                   "texto-ajuda":
                                     "Opcional. Informe o ID da marca",
                                 },
-                                model: {
-                                  value: _vm.busca.id,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.busca, "id", $$v)
-                                  },
-                                  expression: "busca.id",
-                                },
                               },
                               [
                                 _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.busca.id,
+                                      expression: "busca.id",
+                                    },
+                                  ],
                                   staticClass: "form-control",
                                   attrs: {
                                     type: "number",
                                     id: "inputId",
                                     "aria-describedby": "idHelp",
                                     placeholder: "ID",
+                                  },
+                                  domProps: { value: _vm.busca.id },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.busca,
+                                        "id",
+                                        $event.target.value
+                                      )
+                                    },
                                   },
                                 }),
                               ]
@@ -28842,22 +28864,36 @@ var render = function () {
                                   "texto-ajuda":
                                     "Opcional. Informe o nome da marca",
                                 },
-                                model: {
-                                  value: _vm.busca.nome,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.busca, "nome", $$v)
-                                  },
-                                  expression: "busca.nome",
-                                },
                               },
                               [
                                 _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.busca.nome,
+                                      expression: "busca.nome",
+                                    },
+                                  ],
                                   staticClass: "form-control",
                                   attrs: {
                                     type: "text",
                                     id: "inputNome",
                                     "aria-describedby": "nomeHelp",
                                     placeholder: "Nome da marca",
+                                  },
+                                  domProps: { value: _vm.busca.nome },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.busca,
+                                        "nome",
+                                        $event.target.value
+                                      )
+                                    },
                                   },
                                 }),
                               ]
