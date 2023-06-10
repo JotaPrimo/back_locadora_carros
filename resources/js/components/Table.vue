@@ -3,42 +3,27 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col" v-for="t, key in titulos" :key="key">{{ t.titulo }}</th>
-                <th v-if="visualizar.visivel || editar || remover">Ações</th>
+                <th scope="col" v-for="t, key in titulos" :key="key">{{t.titulo}}</th>
+                <th v-if="visualizar.visivel || atualizar || remover"></th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="obj, chave in dadosFiltrados" :key="chave">
                 <td v-for="valor, chaveValor in obj" :key="chaveValor">
-                    <span v-if="titulos[chaveValor].tipo == 'texto'">{{ valor }}</span>
+                    <span v-if="titulos[chaveValor].tipo == 'texto'">{{valor}}</span>
                     <span v-if="titulos[chaveValor].tipo == 'data'">
-                            {{ '...' + valor }}
+                            {{ '...'+valor}}
                         </span>
                     <span v-if="titulos[chaveValor].tipo == 'imagem'">
-                            <img :src="'/storage/'+valor" width="30" height="30">
+                            <img :src="'/storage/'+valor" width="15" height="15">
                         </span>
                 </td>
-                <td v-if="visualizar.visivel || editar || remover">
-                    <button
-                        v-if="visualizar.visivel"
-                        :data-bs-toggle="visualizar.dataToggle"
-                        :data-bs-target="visualizar.dataTarget"
-                        class="btn btn-sm btn-primary">Ver
-                    </button>
-
-                    <button
-                        v-if="editar"
-                        class="btn btn-sm btn-warning">Editar
-                    </button>
-
-                    <button
-                        v-if="remover"
-                        class="btn btn-sm btn-danger">
-                        Deletar
-                    </button>
+                <td v-if="visualizar.visivel || atualizar || remover">
+                    <button v-if="visualizar.visivel" class="btn btn-outline-primary btn-sm" :data-bs-toggle="visualizar.dataToggle" :data-bs-target="visualizar.dataTarget" @click="setStore(obj)">Visualizar</button>
+                    <button v-if="atualizar" class="btn btn-outline-primary btn-sm">Atualizar</button>
+                    <button v-if="remover" class="btn btn-outline-danger btn-sm">Remover</button>
                 </td>
             </tr>
-
             </tbody>
         </table>
     </div>
@@ -46,7 +31,12 @@
 
 <script>
 export default {
-    props: ['dados', 'titulos', 'visualizar', 'editar', 'remover'],
+    props: ['dados', 'titulos', 'atualizar', 'visualizar', 'remover'],
+    methods: {
+        setStore(obj) {
+            this.$store.state.item = obj
+        }
+    },
     computed: {
         dadosFiltrados() {
 

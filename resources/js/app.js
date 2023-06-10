@@ -11,18 +11,12 @@ window.Vue = require('vue').default;
 /*Importando e configurando vue ex*/
 import Vuex from 'vuex';
 Vue.use(Vuex)
+
 const store = new Vuex.Store({
     state: {
-        teste: 'teste'
+        item: {}
     },
 });
-
-
-/*Importando e configurando vue-mak*/
-import VueMask from 'v-mask';
-Vue.use(VueMask);
-
-
 
 /**
  * The following block of code may be used to automatically register your
@@ -55,5 +49,4 @@ Vue.component('paginate-component', require('./components/Paginate.vue').default
 const app = new Vue({
     el: '#app',
     store,
-
 });
