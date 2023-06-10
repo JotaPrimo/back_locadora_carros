@@ -7,31 +7,17 @@
                     <template v-slot:conteudo>
                         <div class="row">
                             <div class="mb-3 col">
-                                <input-container-component
-                                    id="ID"
-                                    titulo="ID"
-                                    id-help="idHelp"
+                                <input-container-component id="ID" titulo="ID" id-help="idHelp"
                                     texto-ajuda="Informe o id da marca">
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        id="id"
-                                        placeholder="Id"
+                                    <input type="number" class="form-control" id="id" placeholder="Id"
                                         aria-describedby="idHelp">
                                 </input-container-component>
                             </div>
                             <div class="mb-3 col">
-                                <input-container-component
-                                    id="nome"
-                                    titulo="Nome da marca"
-                                    id-help="nomeHelp"
+                                <input-container-component id="nome" titulo="Nome da marca" id-help="nomeHelp"
                                     texto-ajuda="Buscar por nome">
 
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="nome"
-                                        placeholder="Nome da marca"
+                                    <input type="text" class="form-control" id="nome" placeholder="Nome da marca"
                                         aria-describedby="nomeHelp">
 
                                 </input-container-component>
@@ -48,11 +34,11 @@
                 <!--    inicio card listagem marcas -->
                 <card-component titulo="Listagem de Marcas">
                     <template v-slot:conteudo>
-                        <table-component></table-component>
+                        <table-component :dados="marcas" :titulos="['id', 'Nome', 'Imagem']"></table-component>
                     </template>
                     <template v-slot:rodape>
                         <button type="button" class="float-end btn btn-primary btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#modalMarca">Adicionar
+                            data-bs-target="#modalMarca">Adicionar
                         </button>
                     </template>
                 </card-component>
@@ -63,34 +49,28 @@
         <!-- Modal -->
         <modal-component id="modalMarca" titulo="Adicionar Marca">
             <template v-slot:alertas>
-                <alert-component
-                    v-if="transacaoStatus == 'adicionado' "
-                    titulo="Marca cadastrada com sucesso"
-                    tipo="success"
-                    :detalhes="transacaoDetalhes">
+                <alert-component v-if="transacaoStatus == 'adicionado'" titulo="Marca cadastrada com sucesso"
+                    tipo="success" :detalhes="transacaoDetalhes">
                 </alert-component>
-                <alert-component
-                    v-else-if="transacaoStatus == 'erro' "
-                    titulo="Erro ao tentar cadastrar a marca"
-                    :detalhes="transacaoDetalhes"
-                    tipo="danger">
+                <alert-component v-else-if="transacaoStatus == 'erro'" titulo="Erro ao tentar cadastrar a marca"
+                    :detalhes="transacaoDetalhes" tipo="danger">
                 </alert-component>
             </template>
 
             <template v-slot:conteudo>
                 <div class="form-group">
                     <input-container-component id="novoNome" titulo="Nome da marca" id-help="novoNomeHelp"
-                                               texto-ajuda="Informe o nome da marca">
+                        texto-ajuda="Informe o nome da marca">
                         <input v-model="nomeMarca" type="text" class="form-control" id="novoNome"
-                               placeholder="Informe o nome" aria-describedby="novoNomeHelp">
+                            placeholder="Informe o nome" aria-describedby="novoNomeHelp">
                     </input-container-component>
                 </div>
 
                 <div class="form-group">
                     <input-container-component id="novoImagem" titulo="Imagem" id-help="novoImagemHelp"
-                                               texto-ajuda="Envie o arquivo">
+                        texto-ajuda="Envie o arquivo">
                         <input type="file" @change="carregarImagem($event)" class="form-control-file" id="imagem"
-                               placeholder="Selecione Imagem" aria-describedby="novoImagemHelp">
+                            placeholder="Selecione Imagem" aria-describedby="novoImagemHelp">
                     </input-container-component>
                 </div>
             </template>
@@ -107,22 +87,49 @@
 
 <script>
 export default {
+    computed: {
+        token() {
+
+            let token = document.cookie.split(';').find(indice => {
+                return indice.includes('token=')
+            })
+
+            token = token.split('=')[1]
+            token = 'Bearer ' + token
+
+            return token
+        }
+    },
+
     data() {
         return {
             urlBase: 'http://localhost:8000/api/v1/marca',
             nomeMarca: '',
             arquivoImagem: [], // inputs do tipo file não podem ser usados com v-model
             transacaoStatus: '',
-            transacaoDetalhes: { }, // detalhes uso v-bind pq tem valores dinamicos,
+            transacaoDetalhes: {}, // detalhes uso v-bind pq tem valores dinamicos,
             marcas: []
         }
     },
     methods: {
 
         carregarLista() {
-            axios.get(this.urlBase)
-                .then(res => console.log(res.data))
-                .catch(err => console.log(err))
+
+            let config = {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': this.token
+                }
+            }
+
+            axios.get(this.urlBase, config)
+                .then(response => {
+                    this.marcas = response.data
+                    console.log(this.marcas)
+                })
+                .catch(errors => {
+                    console.log(errors)
+                })
         },
 
         carregarImagem(e) {
@@ -138,7 +145,8 @@ export default {
             let config = {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Authorization': this.token
                 }
             }
 
@@ -151,25 +159,23 @@ export default {
                     }
 
                 }).catch(err => {
-                this.transacaoDetalhes = {
-                    mensagem: err.response.data.message,
-                    dados: err.response.data.errors,
-                };
+                    this.transacaoDetalhes = {
+                        mensagem: err.response.data.message,
+                        dados: err.response.data.errors,
+                    };
 
-                this.transacaoStatus = 'erro';
+                    this.transacaoStatus = 'erro';
 
-            })
+                })
 
         }
     },
 
     mounted() {
-        this.marcas = this.carregarLista()
+        this.carregarLista();
     }
 
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

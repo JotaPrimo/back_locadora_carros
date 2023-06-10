@@ -5428,28 +5428,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  computed: {
+    token: function token() {
+      var token = document.cookie.split(';').find(function (indice) {
+        return indice.includes('token=');
+      });
+      token = token.split('=')[1];
+      token = 'Bearer ' + token;
+      return token;
+    }
+  },
   data: function data() {
     return {
       urlBase: 'http://localhost:8000/api/v1/marca',
@@ -5464,44 +5454,53 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     carregarLista: function carregarLista() {
-      axios.get(this.urlBase).then(function (res) {
-        return console.log(res.data);
-      })["catch"](function (err) {
-        return console.log(err);
+      var _this = this;
+      var config = {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': this.token
+        }
+      };
+      axios.get(this.urlBase, config).then(function (response) {
+        _this.marcas = response.data;
+        console.log(_this.marcas);
+      })["catch"](function (errors) {
+        console.log(errors);
       });
     },
     carregarImagem: function carregarImagem(e) {
       this.arquivoImagem = e.target.files;
     },
     salvar: function salvar() {
-      var _this = this;
+      var _this2 = this;
       var formData = new FormData();
       formData.append('nome', this.nomeMarca);
       formData.append('imagem', this.arquivoImagem[0]);
       var config = {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Authorization': this.token
         }
       };
 
       // axios.post(<url>, <conteudo>, <config>)
       axios.post(this.urlBase, formData, config).then(function (response) {
-        _this.transacaoStatus = 'adicionado';
-        _this.transacaoDetalhes = {
+        _this2.transacaoStatus = 'adicionado';
+        _this2.transacaoDetalhes = {
           mensagem: 'ID de regisro: ' + response.data.id
         };
       })["catch"](function (err) {
-        _this.transacaoDetalhes = {
+        _this2.transacaoDetalhes = {
           mensagem: err.response.data.message,
           dados: err.response.data.errors
         };
-        _this.transacaoStatus = 'erro';
+        _this2.transacaoStatus = 'erro';
       });
     }
   },
   mounted: function mounted() {
-    this.marcas = this.carregarLista();
+    this.carregarLista();
   }
 });
 
@@ -5580,19 +5579,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Table"
+  props: ['dados', 'titulos']
 });
 
 /***/ }),
@@ -28728,7 +28717,14 @@ var render = function () {
                 {
                   key: "conteudo",
                   fn: function () {
-                    return [_c("table-component")]
+                    return [
+                      _c("table-component", {
+                        attrs: {
+                          dados: _vm.marcas,
+                          titulos: ["id", "Nome", "Imagem"],
+                        },
+                      }),
+                    ]
                   },
                   proxy: true,
                 },
@@ -29005,58 +29001,47 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table table-hover table-bordered" }, [
+  return _c("div", [
+    _c("table", { staticClass: "table table-hover table-bordered" }, [
       _c("thead", [
-        _c("tr", [
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("First")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("Last")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("Handle")]),
-        ]),
+        _c(
+          "tr",
+          _vm._l(_vm.titulos, function (t, key) {
+            return _c("th", { key: key, attrs: { scope: "col" } }, [
+              _vm._v(_vm._s(t)),
+            ])
+          }),
+          0
+        ),
       ]),
       _vm._v(" "),
-      _c("tbody", [
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("1")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Mark")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Otto")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@mdo")]),
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("2")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Jacob")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Thornton")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@fat")]),
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("3")]),
-          _vm._v(" "),
-          _c("td", { attrs: { colspan: "2" } }, [_vm._v("Larry the Bird")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@twitter")]),
-        ]),
-      ]),
-    ])
-  },
-]
+      _c(
+        "tbody",
+        _vm._l(_vm.dados, function (m) {
+          return _c("tr", { key: m.id }, [
+            _c("th", { attrs: { scope: "row" } }, [_vm._v(_vm._s(m.id))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(m.nome))]),
+            _vm._v(" "),
+            _c("td", [
+              _c("img", {
+                attrs: {
+                  src: "/storage/" + m.imagem,
+                  alt: "",
+                  width: "30",
+                  height: "30",
+                },
+              }),
+            ]),
+          ])
+        }),
+        0
+      ),
+    ]),
+    _vm._v("\n    " + _vm._s() + "\n"),
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
