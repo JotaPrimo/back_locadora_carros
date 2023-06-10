@@ -5489,6 +5489,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5599,6 +5600,29 @@ __webpack_require__.r(__webpack_exports__);
         };
         //errors.response.data.message
       });
+    },
+    remover: function remover() {
+      var _this3 = this;
+      var confirmacao = confirm('Deletar ?');
+      if (!confirmacao) {
+        return false;
+      }
+      var config = {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': this.token
+        }
+      };
+      var formData = new FormData();
+      formData.append('_method', 'delete');
+      var url = this.urlBase + '/' + this.$store.state.item.id;
+      axios.post(url, formData, config).then(function (res) {
+        console.log('registro removido com sucesso', res.data);
+        _this3.carregarLista();
+      })["catch"](function (e) {
+        console.log('deu pau', e.data);
+      });
+      console.log('remover');
     }
   },
   mounted: function mounted() {
@@ -29391,6 +29415,20 @@ var render = function () {
                     attrs: { type: "button", "data-bs-dismiss": "modal" },
                   },
                   [_vm._v("Fechar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.remover()
+                      },
+                    },
+                  },
+                  [_vm._v("Remover")]
                 ),
               ]
             },

@@ -139,6 +139,7 @@
             </template>
             <template v-slot:rodape>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" @click="remover()">Remover</button>
             </template>
         </modal-component>
         <!-- modal remover registro -->
@@ -201,6 +202,7 @@ export default {
 
             this.carregarLista()
         },
+
         paginacao(l) {
             if(l.url) {
                 //this.urlBase = l.url //ajustando a url de consulta com o parâmetro de página
@@ -208,6 +210,7 @@ export default {
                 this.carregarLista() //requisitando novamente os dados para nossa API
             }
         },
+
         carregarLista() {
 
             let config = {
@@ -228,9 +231,11 @@ export default {
                     console.log(errors)
                 })
         },
+
         carregarImagem(e) {
             this.arquivoImagem = e.target.files
         },
+
         salvar() {
             console.log(this.nomeMarca, this.arquivoImagem[0])
 
@@ -263,6 +268,36 @@ export default {
                     }
                     //errors.response.data.message
                 })
+        },
+
+        remover() {
+            let confirmacao = confirm('Deletar ?');
+
+            if (!confirmacao) {
+                return false;
+            }
+
+            let config = {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': this.token
+                }
+            }
+
+            let formData = new FormData();
+            formData.append('_method', 'delete');
+
+            let url = this.urlBase + '/' + this.$store.state.item.id;
+
+            axios.post(url,formData, config)
+                .then(res => {
+                    console.log('registro removido com sucesso', res.data)
+                    this.carregarLista();
+                })
+                .catch(e => {
+                console.log('deu pau', e.data)
+            })
+            console.log('remover')
         }
     },
     mounted() {
