@@ -5443,11 +5443,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5473,6 +5468,10 @@ __webpack_require__.r(__webpack_exports__);
       transacaoDetalhes: {},
       marcas: {
         data: []
+      },
+      busca: {
+        id: '',
+        nome: ''
       }
     };
   },
@@ -5529,6 +5528,18 @@ __webpack_require__.r(__webpack_exports__);
         };
         //errors.response.data.message
       });
+    },
+    pesquisar: function pesquisar() {
+      var filtro = '';
+      for (var chave in this.busca) {
+        if (this.busca[chave]) {
+          if (filtro != '') {
+            filtro += ';';
+          }
+        }
+        filtro += chave + ':like' + this.busca[chave];
+      }
+      console.log(this.busca);
     },
     limparInputs: function limparInputs() {
       this.nomeMarca = '';
@@ -28778,7 +28789,7 @@ var render = function () {
                   key: "conteudo",
                   fn: function () {
                     return [
-                      _c("div", { staticClass: "form-row" }, [
+                      _c("div", { staticClass: "row" }, [
                         _c(
                           "div",
                           { staticClass: "col mb-3" },
@@ -28792,6 +28803,13 @@ var render = function () {
                                   "id-help": "idHelp",
                                   "texto-ajuda":
                                     "Opcional. Informe o ID da marca",
+                                },
+                                model: {
+                                  value: _vm.busca.id,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.busca, "id", $$v)
+                                  },
+                                  expression: "busca.id",
                                 },
                               },
                               [
@@ -28824,6 +28842,13 @@ var render = function () {
                                   "texto-ajuda":
                                     "Opcional. Informe o nome da marca",
                                 },
+                                model: {
+                                  value: _vm.busca.nome,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.busca, "nome", $$v)
+                                  },
+                                  expression: "busca.nome",
+                                },
                               },
                               [
                                 _c("input", {
@@ -28854,6 +28879,11 @@ var render = function () {
                         {
                           staticClass: "btn btn-primary btn-sm float-right",
                           attrs: { type: "submit" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.pesquisar()
+                            },
+                          },
                         },
                         [_vm._v("Pesquisar")]
                       ),

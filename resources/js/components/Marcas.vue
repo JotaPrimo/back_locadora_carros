@@ -2,19 +2,17 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-
-
                 <!-- início do card de busca -->
                 <card-component titulo="Busca de marcas">
                     <template v-slot:conteudo>
-                        <div class="form-row">
+                        <div class="row">
                             <div class="col mb-3">
-                                <input-container-component titulo="ID" id="inputId" id-help="idHelp" texto-ajuda="Opcional. Informe o ID da marca">
+                                <input-container-component v-model="busca.id" titulo="ID" id="inputId" id-help="idHelp" texto-ajuda="Opcional. Informe o ID da marca">
                                     <input type="number" class="form-control" id="inputId" aria-describedby="idHelp" placeholder="ID">
                                 </input-container-component>
                             </div>
                             <div class="col mb-3">
-                                <input-container-component titulo="Nome da marca" id="inputNome" id-help="nomeHelp" texto-ajuda="Opcional. Informe o nome da marca">
+                                <input-container-component v-model="busca.nome" titulo="Nome da marca" id="inputNome" id-help="nomeHelp" texto-ajuda="Opcional. Informe o nome da marca">
                                     <input type="text" class="form-control" id="inputNome" aria-describedby="nomeHelp" placeholder="Nome da marca">
                                 </input-container-component>
                             </div>
@@ -22,7 +20,7 @@
                     </template>
 
                     <template v-slot:rodape>
-                        <button type="submit" class="btn btn-primary btn-sm float-right">Pesquisar</button>
+                        <button type="submit" @click="pesquisar()" class="btn btn-primary btn-sm float-right">Pesquisar</button>
                     </template>
                 </card-component>
                 <!-- fim do card de busca -->
@@ -61,8 +59,6 @@
                                     class="btn btn-primary btn-sm float-right"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalMarca">Adicionar</button>
-
-
                             </div>
                         </div>
                     </template>
@@ -70,8 +66,6 @@
                 <!-- fim do card de listagem de marcas -->
             </div>
         </div>
-
-
 
         <modal-component id="modalMarca" titulo="Adicionar marca">
 
@@ -81,6 +75,7 @@
             </template>
 
             <template v-slot:conteudo>
+
                 <div class="form-group">
                     <input-container-component titulo="Nome da marca" id="novoNome" id-help="novoNomeHelp" texto-ajuda="Informe o nome da marca">
                         <input type="text" class="form-control" id="novoNome" aria-describedby="novoNomeHelp" placeholder="Nome da marca" v-model="nomeMarca">
@@ -128,7 +123,8 @@ export default {
             arquivoImagem: [],
             transacaoStatus: '',
             transacaoDetalhes: {},
-            marcas: { data: [] }
+            marcas: { data: [] },
+            busca: { id: '', nome: '' }
         }
     },
     methods: {
@@ -195,6 +191,22 @@ export default {
                     }
                     //errors.response.data.message
                 })
+        },
+
+        pesquisar() {
+            let filtro = '';
+
+            for (let chave in this.busca) {
+                if (this.busca[chave]) {
+                    if (filtro != '') {
+                        filtro += ';';
+                    }
+                }
+
+                filtro += chave + ':like' + this.busca[chave]
+            }
+
+            console.log(this.busca)
         },
 
         limparInputs() {
