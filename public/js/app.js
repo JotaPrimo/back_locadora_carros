@@ -5341,6 +5341,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _Paginate_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Paginate.vue */ "./resources/js/components/Paginate.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5439,7 +5449,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    Paginate: _Paginate_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  computed: {
+    token: function token() {
+      var token = document.cookie.split(';').find(function (indice) {
+        return indice.includes('token=');
+      });
+      token = token.split('=')[1];
+      token = 'Bearer ' + token;
+      return token;
+    }
+  },
   data: function data() {
     return {
       urlBase: 'http://localhost:8000/api/v1/marca',
@@ -5453,6 +5477,12 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    paginacao: function paginacao(l) {
+      if (l.url) {
+        this.urlBase = l.url; //ajustando a url de consulta com o parâmetro de página
+        this.carregarLista(); //requisitando novamente os dados para nossa API
+      }
+    },
     carregarLista: function carregarLista() {
       var _this = this;
       var config = {
@@ -5463,7 +5493,7 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.get(this.urlBase, config).then(function (response) {
         _this.marcas = response.data;
-        console.log(_this.marcas);
+        //console.log(this.marcas)
       })["catch"](function (errors) {
         console.log(errors);
       });
@@ -5489,7 +5519,8 @@ __webpack_require__.r(__webpack_exports__);
         _this2.transacaoDetalhes = {
           mensagem: 'ID do registro: ' + response.data.id
         };
-        console.log(response);
+        _this2.limparInputs(); // limpando inputs
+        _this2.carregarLista(); // atualiazando lista
       })["catch"](function (errors) {
         _this2.transacaoStatus = 'erro';
         _this2.transacaoDetalhes = {
@@ -5498,6 +5529,10 @@ __webpack_require__.r(__webpack_exports__);
         };
         //errors.response.data.message
       });
+    },
+    limparInputs: function limparInputs() {
+      this.nomeMarca = '';
+      this.arquivoImagem = [];
     }
   },
   mounted: function mounted() {
@@ -28865,11 +28900,20 @@ var render = function () {
                               _vm._l(_vm.marcas.links, function (l, key) {
                                 return _c(
                                   "li",
-                                  { key: key, staticClass: "page-item" },
+                                  {
+                                    key: key,
+                                    class: l.active
+                                      ? "page-item active"
+                                      : "page-item",
+                                    on: {
+                                      click: function ($event) {
+                                        return _vm.paginacao(l)
+                                      },
+                                    },
+                                  },
                                   [
                                     _c("a", {
                                       staticClass: "page-link",
-                                      attrs: { href: "#" },
                                       domProps: { innerHTML: _vm._s(l.label) },
                                     }),
                                   ]
@@ -28888,8 +28932,8 @@ var render = function () {
                               staticClass: "btn btn-primary btn-sm float-right",
                               attrs: {
                                 type: "button",
-                                "data-toggle": "modal",
-                                "data-target": "#modalMarca",
+                                "data-bs-toggle": "modal",
+                                "data-bs-target": "#modalMarca",
                               },
                             },
                             [_vm._v("Adicionar")]
@@ -29044,7 +29088,7 @@ var render = function () {
                   "button",
                   {
                     staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" },
+                    attrs: { type: "button", "data-bs-dismiss": "modal" },
                   },
                   [_vm._v("Fechar")]
                 ),
