@@ -127,7 +127,10 @@
 
         <!-- modal remover registro -->
         <modal-component id="modalMarcaRemover" titulo="Remover marca">
-            <template v-slot:alertas></template>
+            <template v-slot:alertas>
+                <alert-component v-if="$store.state.transacao.status == 'successo' " tipo="success" titulo="Marca deletada com successo" :detalhes="{ mensagem: ''}"></alert-component>
+                <alert-component v-if="$store.state.transacao.status == 'erro'" tipo="danger" titulo="Ocorreu um erro" :detalhes="{ mensagem: ''}"></alert-component>
+            </template>
             <template v-slot:conteudo>
                 <input-container-component titulo="ID">
                     <input type="text" class="form-control" :value="$store.state.item.id" disabled>
@@ -288,16 +291,20 @@ export default {
             formData.append('_method', 'delete');
 
             let url = this.urlBase + '/' + this.$store.state.item.id;
+            this.$store.state.transacao.status = 'successo';
+            this.$store.state.transacao.mensagem = 'Tudo certo';
 
-            axios.post(url,formData, config)
-                .then(res => {
-                    console.log('registro removido com sucesso', res.data)
-                    this.carregarLista();
-                })
-                .catch(e => {
-                console.log('deu pau', e.data)
-            })
-            console.log('remover')
+
+
+            // axios.post(url,formData, config)
+            //     .then(res => {
+            //         console.log('registro removido com sucesso', res.data)
+            //         this.carregarLista();
+            //     })
+            //     .catch(e => {
+            //     console.log('deu pau', e.data)
+            // })
+            console.log(this.$store.state.transacao)
         }
     },
     mounted() {

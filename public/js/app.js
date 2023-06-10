@@ -5490,6 +5490,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5602,7 +5605,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     remover: function remover() {
-      var _this3 = this;
       var confirmacao = confirm('Deletar ?');
       if (!confirmacao) {
         return false;
@@ -5616,13 +5618,18 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append('_method', 'delete');
       var url = this.urlBase + '/' + this.$store.state.item.id;
-      axios.post(url, formData, config).then(function (res) {
-        console.log('registro removido com sucesso', res.data);
-        _this3.carregarLista();
-      })["catch"](function (e) {
-        console.log('deu pau', e.data);
-      });
-      console.log('remover');
+      this.$store.state.transacao.status = 'successo';
+      this.$store.state.transacao.mensagem = 'Tudo certo';
+
+      // axios.post(url,formData, config)
+      //     .then(res => {
+      //         console.log('registro removido com sucesso', res.data)
+      //         this.carregarLista();
+      //     })
+      //     .catch(e => {
+      //     console.log('deu pau', e.data)
+      // })
+      console.log(this.$store.state.transacao);
     }
   },
   mounted: function mounted() {
@@ -5788,7 +5795,11 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
   state: {
-    item: {}
+    item: {},
+    transacao: {
+      status: '',
+      mensagem: ''
+    }
   }
 });
 
@@ -29373,7 +29384,27 @@ var render = function () {
           {
             key: "alertas",
             fn: function () {
-              return undefined
+              return [
+                _vm.$store.state.transacao.status == "successo"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "success",
+                        titulo: "Marca deletada com successo",
+                        detalhes: { mensagem: "" },
+                      },
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$store.state.transacao.status == "erro"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "danger",
+                        titulo: "Ocorreu um erro",
+                        detalhes: { mensagem: "" },
+                      },
+                    })
+                  : _vm._e(),
+              ]
             },
             proxy: true,
           },
