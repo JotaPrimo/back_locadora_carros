@@ -35,6 +35,11 @@ export default {
     props: ['dados', 'titulos', 'atualizar', 'visualizar', 'remover'],
     methods: {
         setStore(obj) {
+            // limpando dados da transacao
+            this.$store.state.transacao.status = '';
+            this.$store.state.transacao.mensagem = '';
+
+            // adicionando obj aoitem do vuex
             this.$store.state.item = obj
         }
     },

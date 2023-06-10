@@ -5605,6 +5605,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     remover: function remover() {
+      var _this3 = this;
       var confirmacao = confirm('Deletar ?');
       if (!confirmacao) {
         return false;
@@ -5618,17 +5619,14 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append('_method', 'delete');
       var url = this.urlBase + '/' + this.$store.state.item.id;
-      this.$store.state.transacao.status = 'successo';
-      this.$store.state.transacao.mensagem = 'Tudo certo';
-
-      // axios.post(url,formData, config)
-      //     .then(res => {
-      //         console.log('registro removido com sucesso', res.data)
-      //         this.carregarLista();
-      //     })
-      //     .catch(e => {
-      //     console.log('deu pau', e.data)
-      // })
+      axios.post(url, formData, config).then(function (res) {
+        _this3.$store.state.transacao.status = 'successo';
+        _this3.$store.state.transacao.mensagem = res.data.msg;
+        _this3.carregarLista();
+      })["catch"](function (e) {
+        _this3.$store.state.transacao.status = 'erro';
+        _this3.$store.state.transacao.mensagem = e.data.msg;
+      });
       console.log(this.$store.state.transacao);
     }
   },
@@ -5750,6 +5748,11 @@ __webpack_require__.r(__webpack_exports__);
   props: ['dados', 'titulos', 'atualizar', 'visualizar', 'remover'],
   methods: {
     setStore: function setStore(obj) {
+      // limpando dados da transacao
+      this.$store.state.transacao.status = '';
+      this.$store.state.transacao.mensagem = '';
+
+      // adicionando obj aoitem do vuex
       this.$store.state.item = obj;
     }
   },
@@ -29380,92 +29383,104 @@ var render = function () {
       _vm._v(" "),
       _c("modal-component", {
         attrs: { id: "modalMarcaRemover", titulo: "Remover marca" },
-        scopedSlots: _vm._u([
-          {
-            key: "alertas",
-            fn: function () {
-              return [
-                _vm.$store.state.transacao.status == "successo"
-                  ? _c("alert-component", {
-                      attrs: {
-                        tipo: "success",
-                        titulo: "Marca deletada com successo",
-                        detalhes: { mensagem: "" },
-                      },
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.$store.state.transacao.status == "erro"
-                  ? _c("alert-component", {
-                      attrs: {
-                        tipo: "danger",
-                        titulo: "Ocorreu um erro",
-                        detalhes: { mensagem: "" },
-                      },
-                    })
-                  : _vm._e(),
-              ]
+        scopedSlots: _vm._u(
+          [
+            {
+              key: "alertas",
+              fn: function () {
+                return [
+                  _vm.$store.state.transacao.status == "successo"
+                    ? _c("alert-component", {
+                        attrs: {
+                          tipo: "success",
+                          titulo: "Marca deletada com successo",
+                          detalhes: _vm.$store.state.transacao,
+                        },
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.$store.state.transacao.status == "erro"
+                    ? _c("alert-component", {
+                        attrs: {
+                          tipo: "danger",
+                          titulo: "Ocorreu um erro",
+                          detalhes: _vm.$store.state.transacao,
+                        },
+                      })
+                    : _vm._e(),
+                ]
+              },
+              proxy: true,
             },
-            proxy: true,
-          },
-          {
-            key: "conteudo",
-            fn: function () {
-              return [
-                _c("input-container-component", { attrs: { titulo: "ID" } }, [
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: { type: "text", disabled: "" },
-                    domProps: { value: _vm.$store.state.item.id },
-                  }),
-                ]),
-                _vm._v(" "),
-                _c(
-                  "input-container-component",
-                  { attrs: { titulo: "Nome da marca" } },
-                  [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", disabled: "" },
-                      domProps: { value: _vm.$store.state.item.nome },
-                    }),
-                  ]
-                ),
-              ]
-            },
-            proxy: true,
-          },
-          {
-            key: "rodape",
-            fn: function () {
-              return [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-bs-dismiss": "modal" },
+            _vm.$store.state.transacao.status != "successo"
+              ? {
+                  key: "conteudo",
+                  fn: function () {
+                    return [
+                      _c(
+                        "input-container-component",
+                        { attrs: { titulo: "ID" } },
+                        [
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: { type: "text", disabled: "" },
+                            domProps: { value: _vm.$store.state.item.id },
+                          }),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "input-container-component",
+                        { attrs: { titulo: "Nome da marca" } },
+                        [
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: { type: "text", disabled: "" },
+                            domProps: { value: _vm.$store.state.item.nome },
+                          }),
+                        ]
+                      ),
+                    ]
                   },
-                  [_vm._v("Fechar")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function ($event) {
-                        return _vm.remover()
-                      },
+                  proxy: true,
+                }
+              : null,
+            {
+              key: "rodape",
+              fn: function () {
+                return [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary btn-sm",
+                      attrs: { type: "button", "data-bs-dismiss": "modal" },
                     },
-                  },
-                  [_vm._v("Remover")]
-                ),
-              ]
+                    [_vm._v("Fechar")]
+                  ),
+                  _vm._v(" "),
+                  _vm.$store.state.transacao.status != "successo"
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.remover()
+                            },
+                          },
+                        },
+                        [_vm._v("Remover")]
+                      )
+                    : _vm._e(),
+                ]
+              },
+              proxy: true,
             },
-            proxy: true,
-          },
-        ]),
+          ],
+          null,
+          true
+        ),
       }),
     ],
     1
