@@ -3,11 +3,13 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
 
-
+                {{ $store.state.teste }}
                 <!-- início do card de busca -->
                 <card-component titulo="Busca de marcas">
                     <template v-slot:conteudo>
                         <div class="row">
+                            <input type="text" v-mask="'####-##'">
+
                             <div class="col mb-3">
                                 <input-container-component titulo="ID" id="inputId" id-help="idHelp"
                                                            texto-ajuda="Opcional. Informe o ID da marca">
