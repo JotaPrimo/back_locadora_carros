@@ -1,36 +1,49 @@
 <template>
-    <!--depencias do componete : se não tiver um array dados com id e nome, vai quebrar-->
     <div>
-        <table class="table table-hover table-bordered">
+        <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col" class="text-uppercase" v-for="(t, key) in titulos" :key="key">{{ t }}</th>
+                    <th scope="col" v-for="t, key in titulos" :key="key">{{t.titulo}}</th>
                 </tr>
             </thead>
             <tbody>
-                <!--dessa forma fica idenpendene, posso usar esse compponente em qualquer lugar-->
-                <!-- desde que os nomes das colunsa sejam iguais aos dos valores-->
-                <tr v-for="obj in dados" :key="obj.id">
-                    <td v-if="titulos.includes(chave)" v-for="(valor, chave) in obj" :key="chave">                       
-
-                        <span v-if="chave == 'imagem'">
-                            <img :src="'/storage/' + valor " alt="" width="30" height="30">
+                <tr v-for="obj, chave in dadosFiltrados" :key="chave">
+                    <td v-for="valor, chaveValor in obj" :key="chaveValor">
+                        <span v-if="titulos[chaveValor].tipo == 'texto'">{{valor}}</span>
+                        <span v-if="titulos[chaveValor].tipo == 'data'">
+                            {{ '...'+valor}}
                         </span>
-                        <span v-else>
-                            {{ valor }}
-                        </span>    
+                        <span v-if="titulos[chaveValor].tipo == 'imagem'">
+                            <img :src="'/storage/'+valor" width="30" height="30">
+                        </span>
                     </td>
                 </tr>
             </tbody>
         </table>
-        {{ }}
     </div>
 </template>
 
 <script>
-export default {
-    props: ['dados', 'titulos']
-}
-</script>
+    export default {
+        props: ['dados', 'titulos'],
+        computed: {
+            dadosFiltrados() {
+                
+                let campos = Object.keys(this.titulos)
+                let dadosFiltrados = []
 
-<style scoped></style>
+                this.dados.map((item, chave) => {
+
+                    let itemFiltrado = {}
+                    campos.forEach(campo => {
+                        
+                        itemFiltrado[campo] = item[campo] //utilizar a sintaxe de array para atribuir valores a objetos
+                    })
+                    dadosFiltrados.push(itemFiltrado)
+                })
+
+                return dadosFiltrados //retorne um array de objetos 
+            }
+        }
+    }
+</script>
