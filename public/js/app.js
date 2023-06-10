@@ -5424,8 +5424,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: {
@@ -5459,7 +5457,7 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.get(this.urlBase, config).then(function (response) {
         _this.marcas = response.data;
-        //console.log(this.marcas)
+        console.log(_this.marcas);
       })["catch"](function (errors) {
         console.log(errors);
       });
@@ -28737,7 +28735,7 @@ var render = function () {
                     return [
                       _c("table-component", {
                         attrs: {
-                          dados: _vm.marcas,
+                          dados: _vm.marcas.data,
                           titulos: {
                             id: { titulo: "ID", tipo: "texto" },
                             nome: { titulo: "Nome", tipo: "texto" },

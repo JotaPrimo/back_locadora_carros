@@ -2,8 +2,6 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-
-
                 <!-- início do card de busca -->
                 <card-component titulo="Busca de marcas">
                     <template v-slot:conteudo>
@@ -32,7 +30,7 @@
                 <card-component titulo="Relação de marcas">
                     <template v-slot:conteudo>
                         <table-component
-                            :dados="marcas"
+                            :dados="marcas.data"
                             :titulos="{
                                 id: {titulo: 'ID', tipo: 'texto'},
                                 nome: {titulo: 'Nome', tipo: 'texto'},
@@ -121,7 +119,8 @@
                 axios.get(this.urlBase, config)
                     .then(response => {
                         this.marcas = response.data
-                        //console.log(this.marcas)
+
+                        console.log(this.marcas)
                     })
                     .catch(errors => {
                         console.log(errors)
