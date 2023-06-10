@@ -33,6 +33,9 @@
                     <template v-slot:conteudo>
                         <table-component
                             :dados="marcas.data"
+                            :visualizar="true"
+                            :remover="true"
+                            :editar="false"
                             :titulos="{
                                 id: {titulo: 'ID', tipo: 'texto'},
                                 nome: {titulo: 'Nome', tipo: 'texto'},
@@ -79,14 +82,12 @@
                     <input-container-component titulo="Nome da marca" id="novoNome" id-help="novoNomeHelp" texto-ajuda="Informe o nome da marca">
                         <input type="text" class="form-control" id="novoNome" aria-describedby="novoNomeHelp" placeholder="Nome da marca" v-model="nomeMarca">
                     </input-container-component>
-                    {{ nomeMarca }}
                 </div>
 
                 <div class="form-group">
                     <input-container-component titulo="Imagem" id="novoImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
                         <input type="file" class="form-control-file" id="novoImagem" aria-describedby="novoImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
                     </input-container-component>
-                    {{ arquivoImagem }}
                 </div>
             </template>
 
