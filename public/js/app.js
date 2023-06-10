@@ -5443,6 +5443,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5637,6 +5668,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -28929,7 +28974,11 @@ var render = function () {
                             },
                           },
                         },
-                        [_vm._v("Pesquisar")]
+                        [
+                          _vm._v(
+                            "\n                        Pesquisar\n                    "
+                          ),
+                        ]
                       ),
                     ]
                   },
@@ -29013,7 +29062,11 @@ var render = function () {
                                 "data-bs-target": "#modalMarca",
                               },
                             },
-                            [_vm._v("Adicionar")]
+                            [
+                              _vm._v(
+                                "\n                                Adicionar\n                            "
+                              ),
+                            ]
                           ),
                         ]),
                       ]),
@@ -29172,6 +29225,34 @@ var render = function () {
                     },
                   },
                   [_vm._v("Salvar")]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+        ]),
+      }),
+      _vm._v(" "),
+      _c("modal-component", {
+        attrs: { id: "modalVisualarMarcas", titulo: "Dados da marca" },
+        scopedSlots: _vm._u([
+          {
+            key: "default",
+            fn: function (conteudo) {
+              return undefined
+            },
+          },
+          {
+            key: "rodape",
+            fn: function () {
+              return [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-bs-dismiss": "modal" },
+                  },
+                  [_vm._v("Fechar")]
                 ),
               ]
             },
@@ -29362,20 +29443,28 @@ var render = function () {
               _vm._v(" "),
               _c("td", [
                 _vm.visualizar
-                  ? _c("button", { staticClass: "btn btn-sm btn-primary" }, [
-                      _vm._v("Ver"),
-                    ])
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-primary",
+                        attrs: {
+                          "data-bs-toggle": "modal",
+                          "data-bs-target": "#modalVisualarMarcas",
+                        },
+                      },
+                      [_vm._v("Ver\n                ")]
+                    )
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.editar
                   ? _c("button", { staticClass: "btn btn-sm btn-warning" }, [
-                      _vm._v("Editar"),
+                      _vm._v("Editar\n                "),
                     ])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.remover
                   ? _c("button", { staticClass: "btn btn-sm btn-danger" }, [
-                      _vm._v("Deletar"),
+                      _vm._v("\n                    Deletar\n                "),
                     ])
                   : _vm._e(),
               ]),
