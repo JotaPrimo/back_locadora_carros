@@ -5493,6 +5493,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5628,6 +5653,9 @@ __webpack_require__.r(__webpack_exports__);
         _this3.$store.state.transacao.mensagem = e.data.msg;
       });
       console.log(this.$store.state.transacao);
+    },
+    atualizar: function atualizar() {
+      console.log('atualizar');
     }
   },
   mounted: function mounted() {
@@ -29054,7 +29082,11 @@ var render = function () {
                             dataToggle: "modal",
                             dataTarget: "#modalMarcaVisualizar",
                           },
-                          atualizar: true,
+                          atualizar: {
+                            visivel: true,
+                            dataToggle: "modal",
+                            dataTarget: "#modalMarcaAtualizar",
+                          },
                           remover: {
                             visivel: true,
                             dataToggle: "modal",
@@ -29482,6 +29514,138 @@ var render = function () {
           true
         ),
       }),
+      _vm._v(" "),
+      _c("modal-component", {
+        attrs: { id: "modalMarcaAtualizar", titulo: "Atualizar marca" },
+        scopedSlots: _vm._u([
+          {
+            key: "alertas",
+            fn: function () {
+              return undefined
+            },
+            proxy: true,
+          },
+          {
+            key: "conteudo",
+            fn: function () {
+              return [
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c(
+                      "input-container-component",
+                      {
+                        attrs: {
+                          titulo: "Nome da marca",
+                          id: "novoNomeAtualizar",
+                          "id-help": "novoNomeAtualizarHelp",
+                          "texto-ajuda": "Informe o nome da marca",
+                        },
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nomeMarca,
+                              expression: "nomeMarca",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "novoNomeAtualizar",
+                            "aria-describedby": "novoNomeAtualizarHelp",
+                            placeholder: "Nome da marca",
+                          },
+                          domProps: { value: _vm.nomeMarca },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.nomeMarca = $event.target.value
+                            },
+                          },
+                        }),
+                      ]
+                    ),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c(
+                      "input-container-component",
+                      {
+                        attrs: {
+                          titulo: "Imagem",
+                          id: "novoImagem",
+                          "id-help": "novoImagemHelp",
+                          "texto-ajuda": "Selecione uma imagem no formato PNG",
+                        },
+                      },
+                      [
+                        _c("input", {
+                          staticClass: "form-control-file",
+                          attrs: {
+                            type: "file",
+                            id: "novoImagem",
+                            "aria-describedby": "novoImagemHelp",
+                            placeholder: "Selecione uma imagem",
+                          },
+                          on: {
+                            change: function ($event) {
+                              return _vm.carregarImagem($event)
+                            },
+                          },
+                        }),
+                      ]
+                    ),
+                  ],
+                  1
+                ),
+              ]
+            },
+            proxy: true,
+          },
+          {
+            key: "rodape",
+            fn: function () {
+              return [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-bs-dismiss": "modal" },
+                  },
+                  [_vm._v("Fechar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.atualizar()
+                      },
+                    },
+                  },
+                  [_vm._v("Atualizar")]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+        ]),
+      }),
     ],
     1
   )
@@ -29609,7 +29773,9 @@ var render = function () {
               ])
             }),
             _vm._v(" "),
-            _vm.visualizar.visivel || _vm.atualizar || _vm.remover.visivel
+            _vm.visualizar.visivel ||
+            _vm.atualizar.visivel ||
+            _vm.remover.visivel
               ? _c("th")
               : _vm._e(),
           ],
@@ -29654,7 +29820,9 @@ var render = function () {
                 ])
               }),
               _vm._v(" "),
-              _vm.visualizar.visivel || _vm.atualizar || _vm.remover.visivel
+              _vm.visualizar.visivel ||
+              _vm.atualizar.visivel ||
+              _vm.remover.visivel
                 ? _c("td", [
                     _vm.visualizar.visivel
                       ? _c(
@@ -29675,10 +29843,21 @@ var render = function () {
                         )
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm.atualizar
+                    _vm.atualizar.visivel
                       ? _c(
                           "button",
-                          { staticClass: "btn btn-outline-primary btn-sm" },
+                          {
+                            staticClass: "btn btn-outline-primary btn-sm",
+                            attrs: {
+                              "data-bs-toggle": _vm.atualizar.dataToggle,
+                              "data-bs-target": _vm.atualizar.dataTarget,
+                            },
+                            on: {
+                              click: function ($event) {
+                                return _vm.setStore(obj)
+                              },
+                            },
+                          },
                           [_vm._v("Atualizar")]
                         )
                       : _vm._e(),

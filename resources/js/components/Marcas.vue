@@ -2,7 +2,6 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-
                 <!-- início do card de busca -->
                 <card-component titulo="Busca de marcas">
                     <template v-slot:conteudo>
@@ -33,15 +32,14 @@
                         <table-component
                             :dados="marcas.data"
                             :visualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#modalMarcaVisualizar'}"
-                            :atualizar="true"
+                            :atualizar="{ visivel: true, dataToggle: 'modal', dataTarget: '#modalMarcaAtualizar'}"
                             :remover="{ visivel: true,  dataToggle: 'modal', dataTarget: '#modalMarcaRemover'}"
                             :titulos="{
                                 id: {titulo: 'ID', tipo: 'texto'},
                                 nome: {titulo: 'Nome', tipo: 'texto'},
                                 imagem: {titulo: 'Imagem', tipo: 'imagem'},
                                 created_at: {titulo: 'Criação', tipo: 'data'},
-                            }"
-                        ></table-component>
+                            }"></table-component>
                     </template>
 
                     <template v-slot:rodape>
@@ -64,13 +62,13 @@
                     </template>
                 </card-component>
                 <!-- fim do card de listagem de marcas -->
+
             </div>
         </div>
 
 
         <!-- início do modal de inclusão de marca -->
         <modal-component id="modalMarca" titulo="Adicionar marca">
-
             <template v-slot:alertas>
                 <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Cadastro realizado com sucesso" v-if="transacaoStatus == 'adicionado'"></alert-component>
                 <alert-component tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar cadastrar a marca" v-if="transacaoStatus == 'erro'"></alert-component>
@@ -146,6 +144,33 @@
             </template>
         </modal-component>
         <!-- modal remover registro -->
+
+        <!-- início do modal de atualizacao de marca -->
+        <modal-component id="modalMarcaAtualizar" titulo="Atualizar marca">
+            <template v-slot:alertas>
+            </template>
+
+            <template v-slot:conteudo>
+                <div class="form-group">
+                    <input-container-component titulo="Nome da marca" id="novoNomeAtualizar" id-help="novoNomeAtualizarHelp" texto-ajuda="Informe o nome da marca">
+                        <input type="text" class="form-control" id="novoNomeAtualizar" aria-describedby="novoNomeAtualizarHelp" placeholder="Nome da marca" v-model="nomeMarca">
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <input-container-component titulo="Imagem" id="novoImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
+                        <input type="file" class="form-control-file" id="novoImagem" aria-describedby="novoImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
+                    </input-container-component>
+                </div>
+            </template>
+
+            <template v-slot:rodape>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" @click="atualizar()">Atualizar</button>
+            </template>
+        </modal-component>
+        <!-- fim do modal de atualizacao de marca -->
+
     </div>
 </template>
 
@@ -304,6 +329,10 @@ export default {
                     this.$store.state.transacao.mensagem = e.data.msg;
             })
             console.log(this.$store.state.transacao)
+        },
+
+        atualizar() {
+            console.log('atualizar')
         }
     },
     mounted() {
