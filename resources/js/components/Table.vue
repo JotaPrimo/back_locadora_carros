@@ -38,6 +38,7 @@ export default {
             // limpando dados da transacao
             this.$store.state.transacao.status = '';
             this.$store.state.transacao.mensagem = '';
+            this.$store.state.transacao.dados = '';
 
             // adicionando obj aoitem do vuex
             this.$store.state.item = obj

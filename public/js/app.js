@@ -5516,6 +5516,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5551,6 +5559,59 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    atualizar: function atualizar() {
+      var _this = this;
+      var formData = new FormData();
+      formData.append('_method', 'patch');
+      formData.append('nome', this.$store.state.item.nome);
+      if (this.arquivoImagem[0]) {
+        formData.append('imagem', this.arquivoImagem[0]);
+      }
+      var url = this.urlBase + '/' + this.$store.state.item.id;
+      var config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+          'Authorization': this.token
+        }
+      };
+      axios.post(url, formData, config).then(function (response) {
+        _this.$store.state.transacao.status = 'sucesso';
+        _this.$store.state.transacao.mensagem = 'Registro de marca atualizado com sucesso!';
+
+        //limpar o campo de seleção de arquivos
+        atualizarImagem.value = '';
+        _this.carregarLista();
+      })["catch"](function (errors) {
+        _this.$store.state.transacao.status = 'erro';
+        _this.$store.state.transacao.mensagem = errors.response.data.message;
+        _this.$store.state.transacao.dados = errors.response.data.errors;
+      });
+    },
+    remover: function remover() {
+      var _this2 = this;
+      var confirmacao = confirm('Tem certeza que deseja remover esse registro?');
+      if (!confirmacao) {
+        return false;
+      }
+      var formData = new FormData();
+      formData.append('_method', 'delete');
+      var config = {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': this.token
+        }
+      };
+      var url = this.urlBase + '/' + this.$store.state.item.id;
+      axios.post(url, formData, config).then(function (response) {
+        _this2.$store.state.transacao.status = 'sucesso';
+        _this2.$store.state.transacao.mensagem = response.data.msg;
+        _this2.carregarLista();
+      })["catch"](function (errors) {
+        _this2.$store.state.transacao.status = 'erro';
+        _this2.$store.state.transacao.mensagem = errors.response.data.erro;
+      });
+    },
     pesquisar: function pesquisar() {
       //console.log(this.busca)
 
@@ -5580,7 +5641,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     carregarLista: function carregarLista() {
-      var _this = this;
+      var _this3 = this;
       var config = {
         headers: {
           'Accept': 'application/json',
@@ -5590,7 +5651,7 @@ __webpack_require__.r(__webpack_exports__);
       var url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro;
       console.log(url);
       axios.get(url, config).then(function (response) {
-        _this.marcas = response.data;
+        _this3.marcas = response.data;
         //console.log(this.marcas)
       })["catch"](function (errors) {
         console.log(errors);
@@ -5600,7 +5661,7 @@ __webpack_require__.r(__webpack_exports__);
       this.arquivoImagem = e.target.files;
     },
     salvar: function salvar() {
-      var _this2 = this;
+      var _this4 = this;
       console.log(this.nomeMarca, this.arquivoImagem[0]);
       var formData = new FormData();
       formData.append('nome', this.nomeMarca);
@@ -5613,67 +5674,11 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
       axios.post(this.urlBase, formData, config).then(function (response) {
-        _this2.transacaoStatus = 'adicionado';
-        _this2.transacaoDetalhes = {
+        _this4.transacaoStatus = 'adicionado';
+        _this4.transacaoDetalhes = {
           mensagem: 'ID do registro: ' + response.data.id
         };
-        _this2.carregarLista();
-      })["catch"](function (errors) {
-        _this2.transacaoStatus = 'erro';
-        _this2.transacaoDetalhes = {
-          mensagem: errors.response.data.message,
-          dados: errors.response.data.errors
-        };
-        //errors.response.data.message
-      });
-    },
-    remover: function remover() {
-      var _this3 = this;
-      var confirmacao = confirm('Deletar ?');
-      if (!confirmacao) {
-        return false;
-      }
-      var config = {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': this.token
-        }
-      };
-      var formData = new FormData();
-      formData.append('_method', 'delete');
-      var url = this.urlBase + '/' + this.$store.state.item.id;
-      axios.post(url, formData, config).then(function (res) {
-        _this3.$store.state.transacao.status = 'successo';
-        _this3.$store.state.transacao.mensagem = res.data.msg;
-        _this3.carregarLista();
-      })["catch"](function (e) {
-        _this3.$store.state.transacao.status = 'erro';
-        _this3.$store.state.transacao.mensagem = e.data.msg;
-      });
-      console.log(this.$store.state.transacao);
-    },
-    atualizar: function atualizar() {
-      var _this4 = this;
-      // montando o form data para requisicao
-      var formData = new FormData();
-      formData.append('_method', 'patch');
-      formData.append('nome', this.$store.state.item.nome);
-      if (this.arquivoImagem[0]) {
-        formData.append('imagem', this.arquivoImagem[0]);
-      }
-      var url = this.urlBase + '/' + this.$store.state.item.id;
-
-      // montando configs
-      var config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Accept': 'application/json',
-          'Authorization': this.token
-        }
-      };
-      axios.post(url, formData, config).then(function (response) {
-        atualizarImagem.value = '';
-        _this4.carregarLista();
+        console.log(response);
       })["catch"](function (errors) {
         _this4.transacaoStatus = 'erro';
         _this4.transacaoDetalhes = {
@@ -5805,6 +5810,7 @@ __webpack_require__.r(__webpack_exports__);
       // limpando dados da transacao
       this.$store.state.transacao.status = '';
       this.$store.state.transacao.mensagem = '';
+      this.$store.state.transacao.dados = '';
 
       // adicionando obj aoitem do vuex
       this.$store.state.item = obj;
@@ -5856,7 +5862,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
     transacao: {
       status: '',
       mensagem: ''
-    }
+    },
+    dados: ''
   }
 });
 
@@ -29272,6 +29279,11 @@ var render = function () {
                         }),
                       ]
                     ),
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.nomeMarca) +
+                        "\n            "
+                    ),
                   ],
                   1
                 ),
@@ -29306,6 +29318,11 @@ var render = function () {
                           },
                         }),
                       ]
+                    ),
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.arquivoImagem) +
+                        "\n            "
                     ),
                   ],
                   1
@@ -29437,11 +29454,11 @@ var render = function () {
               key: "alertas",
               fn: function () {
                 return [
-                  _vm.$store.state.transacao.status == "successo"
+                  _vm.$store.state.transacao.status == "sucesso"
                     ? _c("alert-component", {
                         attrs: {
                           tipo: "success",
-                          titulo: "Marca deletada com successo",
+                          titulo: "Transação realizada com sucesso",
                           detalhes: _vm.$store.state.transacao,
                         },
                       })
@@ -29451,7 +29468,7 @@ var render = function () {
                     ? _c("alert-component", {
                         attrs: {
                           tipo: "danger",
-                          titulo: "Ocorreu um erro",
+                          titulo: "Erro na transação",
                           detalhes: _vm.$store.state.transacao,
                         },
                       })
@@ -29460,7 +29477,7 @@ var render = function () {
               },
               proxy: true,
             },
-            _vm.$store.state.transacao.status != "successo"
+            _vm.$store.state.transacao.status != "sucesso"
               ? {
                   key: "conteudo",
                   fn: function () {
@@ -29500,17 +29517,17 @@ var render = function () {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-secondary btn-sm",
+                      staticClass: "btn btn-secondary",
                       attrs: { type: "button", "data-bs-dismiss": "modal" },
                     },
                     [_vm._v("Fechar")]
                   ),
                   _vm._v(" "),
-                  _vm.$store.state.transacao.status != "successo"
+                  _vm.$store.state.transacao.status != "sucesso"
                     ? _c(
                         "button",
                         {
-                          staticClass: "btn btn-danger btn-sm",
+                          staticClass: "btn btn-danger",
                           attrs: { type: "button" },
                           on: {
                             click: function ($event) {
@@ -29537,7 +29554,27 @@ var render = function () {
           {
             key: "alertas",
             fn: function () {
-              return undefined
+              return [
+                _vm.$store.state.transacao.status == "sucesso"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "success",
+                        titulo: "Transação realizada com sucesso",
+                        detalhes: _vm.$store.state.transacao,
+                      },
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.$store.state.transacao.status == "erro"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "danger",
+                        titulo: "Erro na transação",
+                        detalhes: _vm.$store.state.transacao,
+                      },
+                    })
+                  : _vm._e(),
+              ]
             },
             proxy: true,
           },
@@ -29554,8 +29591,8 @@ var render = function () {
                       {
                         attrs: {
                           titulo: "Nome da marca",
-                          id: "novoNomeAtualizar",
-                          "id-help": "novoNomeAtualizarHelp",
+                          id: "atualizarNome",
+                          "id-help": "atualizarNomeHelp",
                           "texto-ajuda": "Informe o nome da marca",
                         },
                       },
@@ -29572,8 +29609,8 @@ var render = function () {
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
-                            id: "novoNomeAtualizar",
-                            "aria-describedby": "novoNomeAtualizarHelp",
+                            id: "atualizarNome",
+                            "aria-describedby": "atualizarNomeHelp",
                             placeholder: "Nome da marca",
                           },
                           domProps: { value: _vm.$store.state.item.nome },
