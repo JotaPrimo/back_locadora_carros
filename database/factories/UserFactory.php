@@ -17,7 +17,7 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'address' => $this->faker->address(),
+            'address' => $this->faker->text(),
             'phone_number' => $this->faker->phoneNumber(),
             'section_id' => random_int(1, 10),
             'classe_id' => random_int(1, 10),

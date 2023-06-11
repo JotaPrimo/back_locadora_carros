@@ -8,9 +8,8 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index() {
-        dd('UserController asdsadsad');
-        $users = User::with(['classe', 'section'])->get();
+    public function index() {       
+        $users = User::with(['classe', 'section'])->limit(50)->get();
 
         return UserResource::collection($users);
     }

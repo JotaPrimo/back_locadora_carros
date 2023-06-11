@@ -8,7 +8,7 @@
                             >Per Page</label
                         >
                         <select
-                            v-model="paginate"
+                            
                             class="form-control form-control-sm"
                         >
                             <option value="10">10</option>
@@ -178,7 +178,7 @@
                         <th>Action</th>
                     </tr>
 
-                    <tr                       
+                    <tr v-for="user in users" :key="user.id"                       
                     >
                         <td>
                             <input
@@ -186,13 +186,13 @@
 
                             />
                         </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.address }}</td>
+                        <td>{{ user.phone_number }}</td>
+                        <td>{{ user.created_at }}</td>
+                        <td>{{ user.classe }}</td>
+                        <td>{{ user.section }}</td>                       
                         <td>
                             <button
                                 class="btn btn-danger btn-sm"
@@ -214,9 +214,26 @@
 </template>
 
 <script>
+import axios from 'axios';
+
     export default {
+        data() {
+            return {
+                urlBase: 'http://localhost:8000',
+                users: {}
+            }
+        },
+
         mounted() {
-            console.log('Component mounted.')
+            let urlApi = this.urlBase + '/api/users';           
+
+           axios.get(urlApi)
+           .then(response => {
+                console.log(response.data.data)
+                this.users = response.data.data;
+           }).catch(error => {
+                console.log(error);
+           })
         }
     }
 </script>

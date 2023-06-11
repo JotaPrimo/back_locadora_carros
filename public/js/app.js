@@ -5820,6 +5820,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -6036,9 +6038,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      urlBase: 'http://localhost:8000',
+      users: {}
+    };
+  },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    var _this = this;
+    var urlApi = this.urlBase + '/api/users';
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get(urlApi).then(function (response) {
+      console.log(response.data.data);
+      _this.users = response.data.data;
+    })["catch"](function (error) {
+      console.log(error);
+    });
   }
 });
 
@@ -30307,7 +30323,53 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
+    _vm._m(0),
+    _vm._v(" "),
+    _vm._m(1),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body table-responsive p-0" }, [
+      _c("table", { staticClass: "table table-hover" }, [
+        _c(
+          "tbody",
+          [
+            _vm._m(2),
+            _vm._v(" "),
+            _vm._l(_vm.users, function (user) {
+              return _c("tr", { key: user.id }, [
+                _vm._m(3, true),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(user.name))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(user.email))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(user.address))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(user.phone_number))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(user.created_at))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(user.classe))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(user.section))]),
+                _vm._v(" "),
+                _vm._m(4, true),
+              ])
+            }),
+          ],
+          2
+        ),
+      ]),
+    ]),
+    _vm._v(" "),
+    _vm._m(5),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
       "div",
       {
         staticClass: "d-flex justify-content-between align-content-center mb-2",
@@ -30325,159 +30387,110 @@ var render = function () {
                 [_vm._v("Per Page")]
               ),
               _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.paginate,
-                      expression: "paginate",
-                    },
-                  ],
-                  staticClass: "form-control form-control-sm",
-                  on: {
-                    change: function ($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function (o) {
-                          return o.selected
-                        })
-                        .map(function (o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.paginate = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    },
-                  },
-                },
-                [
-                  _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "20" } }, [_vm._v("20")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "30" } }, [_vm._v("30")]),
-                ]
-              ),
+              _c("select", { staticClass: "form-control form-control-sm" }, [
+                _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "20" } }, [_vm._v("20")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "30" } }, [_vm._v("30")]),
+              ]),
             ]),
           ]),
           _vm._v(" "),
-          _vm._m(0),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _vm._m(2),
-        ]),
-        _vm._v(" "),
-        _vm._m(3),
-      ]
-    ),
-    _vm._v(" "),
-    _vm._m(4),
-    _vm._v(" "),
-    _vm._m(5),
-    _vm._v(" "),
-    _vm._m(6),
-  ])
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "d-flex align-items-center ml-4" }, [
-        _c(
-          "label",
-          { staticClass: "text-nowrap mr-2 mb-0", attrs: { for: "paginate" } },
-          [_vm._v("FilterBy Class")]
-        ),
-        _vm._v(" "),
-        _c("select", { staticClass: "form-control form-control-sm" }, [
-          _c("option", { attrs: { value: "" } }, [_vm._v("All Class")]),
-          _vm._v(" "),
-          _c("option"),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "d-flex align-items-center ml-4" }, [
-        _c(
-          "label",
-          { staticClass: "text-nowrap mr-2 mb-0", attrs: { for: "paginate" } },
-          [_vm._v("Section")]
-        ),
-        _vm._v(" "),
-        _c("select", { staticClass: "form-control form-control-sm" }, [
-          _c("option", { attrs: { value: "" } }, [_vm._v("Select a Section")]),
-          _vm._v(" "),
-          _c("option"),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "dropdown ml-4" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-secondary dropdown-toggle",
-            attrs: { "data-toggle": "dropdown" },
-          },
-          [
-            _vm._v(
-              "\n                        With Checked ()\n                    "
-            ),
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "dropdown-menu" }, [
-          _c(
-            "a",
-            {
-              staticClass: "dropdown-item",
-              attrs: { href: "#", type: "button" },
-            },
-            [
-              _vm._v(
-                "\n                            Delete\n                        "
+          _c("div", [
+            _c("div", { staticClass: "d-flex align-items-center ml-4" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "text-nowrap mr-2 mb-0",
+                  attrs: { for: "paginate" },
+                },
+                [_vm._v("FilterBy Class")]
               ),
-            ]
-          ),
+              _vm._v(" "),
+              _c("select", { staticClass: "form-control form-control-sm" }, [
+                _c("option", { attrs: { value: "" } }, [_vm._v("All Class")]),
+                _vm._v(" "),
+                _c("option"),
+              ]),
+            ]),
+          ]),
           _vm._v(" "),
-          _c("a", { staticClass: "dropdown-item", attrs: { type: "button" } }, [
-            _vm._v(
-              "\n                            Export\n                        "
-            ),
+          _c("div", [
+            _c("div", { staticClass: "d-flex align-items-center ml-4" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "text-nowrap mr-2 mb-0",
+                  attrs: { for: "paginate" },
+                },
+                [_vm._v("Section")]
+              ),
+              _vm._v(" "),
+              _c("select", { staticClass: "form-control form-control-sm" }, [
+                _c("option", { attrs: { value: "" } }, [
+                  _vm._v("Select a Section"),
+                ]),
+                _vm._v(" "),
+                _c("option"),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("div", { staticClass: "dropdown ml-4" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary dropdown-toggle",
+                  attrs: { "data-toggle": "dropdown" },
+                },
+                [
+                  _vm._v(
+                    "\n                        With Checked ()\n                    "
+                  ),
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "dropdown-menu" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "dropdown-item",
+                    attrs: { href: "#", type: "button" },
+                  },
+                  [
+                    _vm._v(
+                      "\n                            Delete\n                        "
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  { staticClass: "dropdown-item", attrs: { type: "button" } },
+                  [
+                    _vm._v(
+                      "\n                            Export\n                        "
+                    ),
+                  ]
+                ),
+              ]),
+            ]),
           ]),
         ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "search",
-          placeholder: "Search by name,email,phone,or address...",
-        },
-      }),
-    ])
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4" }, [
+          _c("input", {
+            staticClass: "form-control",
+            attrs: {
+              type: "search",
+              placeholder: "Search by name,email,phone,or address...",
+            },
+          }),
+        ]),
+      ]
+    )
   },
   function () {
     var _vm = this
@@ -30506,86 +30519,72 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body table-responsive p-0" }, [
-      _c("table", { staticClass: "table table-hover" }, [
-        _c("tbody", [
-          _c("tr", [
-            _c("th", [_c("input", { attrs: { type: "checkbox" } })]),
-            _vm._v(" "),
-            _c("th", [
-              _c("a", { attrs: { href: "#" } }, [_vm._v("Student's Name")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("↑")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("↓")]),
-            ]),
-            _vm._v(" "),
-            _c("th", [
-              _c("a", { attrs: { href: "#" } }, [_vm._v("Email")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("↑")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("↓")]),
-            ]),
-            _vm._v(" "),
-            _c("th", [
-              _c("a", { attrs: { href: "#" } }, [_vm._v("Address")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("↑")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("↓")]),
-            ]),
-            _vm._v(" "),
-            _c("th", [
-              _c("a", { attrs: { href: "#" } }, [_vm._v("Phone Number")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("↑")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("↓")]),
-            ]),
-            _vm._v(" "),
-            _c("th", [
-              _c("a", { attrs: { href: "#" } }, [_vm._v("Created At")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("↑")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("↓")]),
-            ]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Class")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Section")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Action")]),
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_c("input", { attrs: { type: "checkbox" } })]),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td", [
-              _c("button", { staticClass: "btn btn-danger btn-sm" }, [
-                _c("i", {
-                  staticClass: "fa fa-trash",
-                  attrs: { "aria-hidden": "true" },
-                }),
-              ]),
-            ]),
-          ]),
-        ]),
+    return _c("tr", [
+      _c("th", [_c("input", { attrs: { type: "checkbox" } })]),
+      _vm._v(" "),
+      _c("th", [
+        _c("a", { attrs: { href: "#" } }, [_vm._v("Student's Name")]),
+        _vm._v(" "),
+        _c("span", [_vm._v("↑")]),
+        _vm._v(" "),
+        _c("span", [_vm._v("↓")]),
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _c("a", { attrs: { href: "#" } }, [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("span", [_vm._v("↑")]),
+        _vm._v(" "),
+        _c("span", [_vm._v("↓")]),
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _c("a", { attrs: { href: "#" } }, [_vm._v("Address")]),
+        _vm._v(" "),
+        _c("span", [_vm._v("↑")]),
+        _vm._v(" "),
+        _c("span", [_vm._v("↓")]),
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _c("a", { attrs: { href: "#" } }, [_vm._v("Phone Number")]),
+        _vm._v(" "),
+        _c("span", [_vm._v("↑")]),
+        _vm._v(" "),
+        _c("span", [_vm._v("↓")]),
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _c("a", { attrs: { href: "#" } }, [_vm._v("Created At")]),
+        _vm._v(" "),
+        _c("span", [_vm._v("↑")]),
+        _vm._v(" "),
+        _c("span", [_vm._v("↓")]),
+      ]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Class")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Section")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Action")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("input", { attrs: { type: "checkbox" } })])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("button", { staticClass: "btn btn-danger btn-sm" }, [
+        _c("i", {
+          staticClass: "fa fa-trash",
+          attrs: { "aria-hidden": "true" },
+        }),
       ]),
     ])
   },
@@ -43996,6 +43995,18 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	

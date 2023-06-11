@@ -291,7 +291,6 @@ export default {
         },
         carregarLista() {
 
-
             let url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
             console.log(url)
             axios.get(url)

@@ -14,7 +14,7 @@ class ClasseFactory extends Factory
     public function definition()
     {
         return [
-            'nome' => $this->faker->lastName()
+            'nome' => 'Classe ' . $this->faker->lastName()
         ];
     }
 }
