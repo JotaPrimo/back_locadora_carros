@@ -5619,7 +5619,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.transacaoDetalhes = {
           mensagem: 'ID do registro: ' + response.data.id
         };
-        console.log(response);
+        _this2.carregarLista();
       })["catch"](function (errors) {
         _this2.transacaoStatus = 'erro';
         _this2.transacaoDetalhes = {
@@ -5655,7 +5655,40 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.$store.state.transacao);
     },
     atualizar: function atualizar() {
-      console.log('atualizar');
+      var _this4 = this;
+      console.log('nome', this.$store.state.item.nome);
+      console.log('imagem', this.arquivoImagem);
+      console.log('verbo pacth, pq não preciso atualizar tudo');
+
+      // montando o form data para requisicao
+      var formData = new FormData();
+      formData.append('_method', 'patch');
+      formData.append('nome', this.$store.state.item.nome);
+      formData.append('imagem', this.arquivoImagem);
+      var url = this.urlBase + '/' + this.$store.state.item.id;
+
+      // montando configs
+      var config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+          'Authorization': this.token
+        }
+      };
+      axios.post(url, formData, config).then(function (response) {
+        _this4.transacaoStatus = 'adicionado';
+        _this4.transacaoDetalhes = {
+          mensagem: 'ID do registro: ' + response.data.id
+        };
+        _this4.carregarLista();
+      })["catch"](function (errors) {
+        _this4.transacaoStatus = 'erro';
+        _this4.transacaoDetalhes = {
+          mensagem: errors.response.data.message,
+          dados: errors.response.data.errors
+        };
+        //errors.response.data.message
+      });
     }
   },
   mounted: function mounted() {
@@ -29549,8 +29582,8 @@ var render = function () {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.nomeMarca,
-                              expression: "nomeMarca",
+                              value: _vm.$store.state.item.nome,
+                              expression: "$store.state.item.nome",
                             },
                           ],
                           staticClass: "form-control",
@@ -29560,13 +29593,17 @@ var render = function () {
                             "aria-describedby": "novoNomeAtualizarHelp",
                             placeholder: "Nome da marca",
                           },
-                          domProps: { value: _vm.nomeMarca },
+                          domProps: { value: _vm.$store.state.item.nome },
                           on: {
                             input: function ($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.nomeMarca = $event.target.value
+                              _vm.$set(
+                                _vm.$store.state.item,
+                                "nome",
+                                $event.target.value
+                              )
                             },
                           },
                         }),

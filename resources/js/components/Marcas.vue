@@ -153,7 +153,7 @@
             <template v-slot:conteudo>
                 <div class="form-group">
                     <input-container-component titulo="Nome da marca" id="novoNomeAtualizar" id-help="novoNomeAtualizarHelp" texto-ajuda="Informe o nome da marca">
-                        <input type="text" class="form-control" id="novoNomeAtualizar" aria-describedby="novoNomeAtualizarHelp" placeholder="Nome da marca" v-model="nomeMarca">
+                        <input type="text" class="form-control" id="novoNomeAtualizar" aria-describedby="novoNomeAtualizarHelp" placeholder="Nome da marca" v-model="$store.state.item.nome">
                     </input-container-component>
                 </div>
 
@@ -286,7 +286,7 @@ export default {
                         mensagem: 'ID do registro: ' + response.data.id
                     }
 
-                    console.log(response)
+                    this.carregarLista();
                 })
                 .catch(errors => {
                     this.transacaoStatus = 'erro'
@@ -332,7 +332,44 @@ export default {
         },
 
         atualizar() {
-            console.log('atualizar')
+            console.log('nome', this.$store.state.item.nome)
+            console.log('imagem', this.arquivoImagem)
+            console.log('verbo pacth, pq não preciso atualizar tudo')
+
+            // montando o form data para requisicao
+            let formData = new FormData();
+            formData.append('_method', 'patch');
+            formData.append('nome', this.$store.state.item.nome);
+            formData.append('imagem', this.arquivoImagem);
+
+            let url = this.urlBase + '/' + this.$store.state.item.id;
+
+            // montando configs
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Accept': 'application/json',
+                    'Authorization': this.token
+                }
+            }
+
+            axios.post(url, formData, config)
+                .then(response => {
+                    this.transacaoStatus = 'adicionado'
+                    this.transacaoDetalhes = {
+                        mensagem: 'ID do registro: ' + response.data.id
+                    }
+
+                    this.carregarLista();
+                })
+                .catch(errors => {
+                    this.transacaoStatus = 'erro'
+                    this.transacaoDetalhes = {
+                        mensagem: errors.response.data.message,
+                        dados: errors.response.data.errors
+                    }
+                    //errors.response.data.message
+                })
         }
     },
     mounted() {
