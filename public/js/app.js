@@ -5805,6 +5805,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['dados', 'titulos', 'atualizar', 'visualizar', 'remover'],
+  filters: {},
   methods: {
     setStore: function setStore(obj) {
       // limpando dados da transacao
@@ -5895,6 +5896,20 @@ Vue.component('paginate-component', (__webpack_require__(/*! ./components/Pagina
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// filtro global
+Vue.filter('formataDataTempoGlobal', function (d) {
+  if (!d) {
+    return '';
+  }
+  d = d.split('T');
+  var data = d[0];
+  var tempo = d[1];
+  data = data.split('-');
+  data = data[2] + '/' + data[1] + '/' + data[0];
+  tempo = tempo.split('.');
+  tempo = tempo[0];
+  return data + ' ' + tempo;
+});
 var app = new Vue({
   el: '#app',
   store: store
@@ -29857,7 +29872,7 @@ var render = function () {
                     ? _c("span", [
                         _vm._v(
                           "\n                        " +
-                            _vm._s("..." + valor) +
+                            _vm._s(_vm._f("formataDataTempoGlobal")(valor)) +
                             "\n                    "
                         ),
                       ])
