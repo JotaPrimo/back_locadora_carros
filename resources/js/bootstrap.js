@@ -2,7 +2,8 @@ window._ = require('lodash');
 
 try {
     require('bootstrap');
-} catch (e) {}
+} catch (e) {
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -30,3 +31,28 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+// interceptanto os requests da aplicação
+axios.interceptors.request.use(
+    config => {
+        console.log('Interceptando o request antes do envio', config)
+        return config;
+    },
+    error => {
+        console.log('Erro: ', error);
+        return Promisse.reject(error);
+    }
+);
+
+
+// interceptar response da aplicação
+axios.interceptors.request.use(
+    response => {
+        console.log('Interceptando o response antes do envio', response)
+        return response;
+    },
+    error => {
+        console.log('Erro: ', error);
+        return Promisse.reject(error);
+    }
+);

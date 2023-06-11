@@ -5954,6 +5954,24 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
+// interceptanto os requests da aplicação
+axios.interceptors.request.use(function (config) {
+  console.log('Interceptando o request antes do envio', config);
+  return config;
+}, function (error) {
+  console.log('Erro: ', error);
+  return Promisse.reject(error);
+});
+
+// interceptar response da aplicação
+axios.interceptors.request.use(function (response) {
+  console.log('Interceptando o response antes do envio', response);
+  return response;
+}, function (error) {
+  console.log('Erro: ', error);
+  return Promisse.reject(error);
+});
+
 /***/ }),
 
 /***/ "./node_modules/bootstrap/dist/js/bootstrap.esm.js":
