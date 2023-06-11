@@ -27,6 +27,7 @@ public function run()
                     'email'    => 'gestald118@gmail.com',
                     'section_id'    => 1,
                     'classe_id'    => 1,
+                    'address' => 'Rua Artur Marinho, 20, Jardim Sayonara, Campo Grande-MS',
                     'password' => Hash::make(12345678)
                 ],                    
             ]

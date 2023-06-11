@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('address')->nullable();
+            $table->text('address')->nullable();
             $table->string('phone_number')->nullable();
             $table->unsignedBigInteger('section_id');
             $table->foreign('section_id')->references('id')->on('sections');   

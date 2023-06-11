@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "laravel-vue-pagination": "^4.1.0",
         "v-mask": "^2.3.0",
         "vuex": "^3.6.2"
     }

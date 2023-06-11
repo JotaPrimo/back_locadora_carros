@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\DataService;
+use App\Services\StringService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -53,6 +54,14 @@ class User extends Authenticatable implements JWTSubject
     public function getFirstNameAttribute($value)
     {
         return ucfirst($value);
+    }
+
+    public function setNameAttribute($value) {
+        $this->attributes['name'] = trim(strtoupper($value));
+    }
+
+    public function setPhoneNumberAttribute($value) {
+        $this->attributes['phone_number'] = StringService::removerCaracteresEspeciais($value);
     }
 
     public function getCreatedAtAttribute($value) {
