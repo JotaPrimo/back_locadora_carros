@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarroController;
+use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\LocacaoController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ModeloController;
+use App\Http\Controllers\SectionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +27,16 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::get('/users', [UserController::class, 'index']);
+
+Route::get('/classes', [ClasseController::class, 'index']);
+Route::get('/sections', [SectionController::class, 'index']);
+
+Route::delete('users/delete/{student}', [UserController::class, 'destroy']);
+Route::delete('users/massDestroy/{users}', [UserController::class, 'massDestroy']);
+
+Route::get('users/export/{users}', [UserController::class, 'export']);
+
 Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::post('me', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
@@ -36,4 +49,3 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('refresh', [AuthController::class, 'refresh']);
-
