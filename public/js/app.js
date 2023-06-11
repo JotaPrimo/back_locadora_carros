@@ -5952,7 +5952,17 @@ axios.interceptors.request.use(function (response) {
   console.log('Interceptando o response antes do envio', response);
   return response;
 }, function (error) {
-  console.log('Erro: ', error);
+  console.log('Erro: ', error.response);
+
+  // verifcando se precisa de novo token por ter expirado
+  if (error.response.status == 401 && error.response.data.message == 'Token has expired') {
+    axios.post('http://localhost:8000/api/refresh').then(function (response) {
+      document.cookie = 'token=' + data.token;
+      window.location.reload();
+    })["catch"](function (error) {
+      console.log(error.data.message);
+    });
+  }
   return Promisse.reject(error);
 });
 
