@@ -79,14 +79,12 @@
                     <input-container-component titulo="Nome da marca" id="novoNome" id-help="novoNomeHelp" texto-ajuda="Informe o nome da marca">
                         <input type="text" class="form-control" id="novoNome" aria-describedby="novoNomeHelp" placeholder="Nome da marca" v-model="nomeMarca">
                     </input-container-component>
-                    {{ nomeMarca }}
                 </div>
 
                 <div class="form-group">
                     <input-container-component titulo="Imagem" id="novoImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
                         <input type="file" class="form-control-file" id="novoImagem" aria-describedby="novoImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
                     </input-container-component>
-                    {{ arquivoImagem }}
                 </div>
             </template>
 
@@ -158,8 +156,8 @@
                 </div>
 
                 <div class="form-group">
-                    <input-container-component titulo="Imagem" id="novoImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
-                        <input type="file" class="form-control-file" id="novoImagem" aria-describedby="novoImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
+                    <input-container-component titulo="Imagem" id="atualizarImagem" id-help="atualizarImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
+                        <input type="file" class="form-control-file" id="atualizarImagem" aria-describedby="atualizarImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
                     </input-container-component>
                 </div>
             </template>
@@ -332,15 +330,15 @@ export default {
         },
 
         atualizar() {
-            console.log('nome', this.$store.state.item.nome)
-            console.log('imagem', this.arquivoImagem)
-            console.log('verbo pacth, pq não preciso atualizar tudo')
 
             // montando o form data para requisicao
             let formData = new FormData();
             formData.append('_method', 'patch');
             formData.append('nome', this.$store.state.item.nome);
-            formData.append('imagem', this.arquivoImagem);
+
+            if (this.arquivoImagem[0]) {
+                formData.append('imagem', this.arquivoImagem[0]);
+            }
 
             let url = this.urlBase + '/' + this.$store.state.item.id;
 
@@ -355,11 +353,7 @@ export default {
 
             axios.post(url, formData, config)
                 .then(response => {
-                    this.transacaoStatus = 'adicionado'
-                    this.transacaoDetalhes = {
-                        mensagem: 'ID do registro: ' + response.data.id
-                    }
-
+                    atualizarImagem.value = '';
                     this.carregarLista();
                 })
                 .catch(errors => {

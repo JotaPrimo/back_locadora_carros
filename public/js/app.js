@@ -5516,8 +5516,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5656,15 +5654,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     atualizar: function atualizar() {
       var _this4 = this;
-      console.log('nome', this.$store.state.item.nome);
-      console.log('imagem', this.arquivoImagem);
-      console.log('verbo pacth, pq não preciso atualizar tudo');
-
       // montando o form data para requisicao
       var formData = new FormData();
       formData.append('_method', 'patch');
       formData.append('nome', this.$store.state.item.nome);
-      formData.append('imagem', this.arquivoImagem);
+      if (this.arquivoImagem[0]) {
+        formData.append('imagem', this.arquivoImagem[0]);
+      }
       var url = this.urlBase + '/' + this.$store.state.item.id;
 
       // montando configs
@@ -5676,10 +5672,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
       axios.post(url, formData, config).then(function (response) {
-        _this4.transacaoStatus = 'adicionado';
-        _this4.transacaoDetalhes = {
-          mensagem: 'ID do registro: ' + response.data.id
-        };
+        atualizarImagem.value = '';
         _this4.carregarLista();
       })["catch"](function (errors) {
         _this4.transacaoStatus = 'erro';
@@ -29279,11 +29272,6 @@ var render = function () {
                         }),
                       ]
                     ),
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(_vm.nomeMarca) +
-                        "\n            "
-                    ),
                   ],
                   1
                 ),
@@ -29318,11 +29306,6 @@ var render = function () {
                           },
                         }),
                       ]
-                    ),
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(_vm.arquivoImagem) +
-                        "\n            "
                     ),
                   ],
                   1
@@ -29622,8 +29605,8 @@ var render = function () {
                       {
                         attrs: {
                           titulo: "Imagem",
-                          id: "novoImagem",
-                          "id-help": "novoImagemHelp",
+                          id: "atualizarImagem",
+                          "id-help": "atualizarImagemHelp",
                           "texto-ajuda": "Selecione uma imagem no formato PNG",
                         },
                       },
@@ -29632,8 +29615,8 @@ var render = function () {
                           staticClass: "form-control-file",
                           attrs: {
                             type: "file",
-                            id: "novoImagem",
-                            "aria-describedby": "novoImagemHelp",
+                            id: "atualizarImagem",
+                            "aria-describedby": "atualizarImagemHelp",
                             placeholder: "Selecione uma imagem",
                           },
                           on: {
