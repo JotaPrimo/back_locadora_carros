@@ -291,6 +291,12 @@ export default {
         },
         carregarLista() {
 
+            window.Toast.fire({
+                icon: 'success',
+                title: 'asdasdasdsadas'
+            })         
+            
+
             let url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
             console.log(url)
             axios.get(url)
